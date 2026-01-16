@@ -1,0 +1,2 @@
+# Turn-Based Arena Fighter in C Terminal
+This program is a simple project that runs a turn-based arena fighter game in C via the terminal. It has only been tested in Dev C++ and the latest mingw compiler version.
