@@ -6,6 +6,9 @@
 int row=0;
 int column=0;
 char board[4][20] = {"War","Market","Blacksmith","Gambling"};
+int charHealth = 100;
+int charDurability = 100;
+int charGold = 0;
 
 //Prototype
 void FirstIntroductionMenu();
@@ -84,14 +87,17 @@ void cursorControl()
 			else if(column==1)
 			{
 				system("cls");
+				marketMenu();
 			}
 			else if(column==2)
 			{
 				system("cls");
+				blacksmithMenu();
 			}
 			else if(column==3)
 			{
 				system("cls");
+				gamblingMenu();
 			}
 		}
 		else if(selectedDirection == 'Q' || selectedDirection == 'q')
@@ -111,22 +117,34 @@ void cursorControl()
 
 void warMenu()
 {
-	
+	printf("\033[35m\033[3mWar Menu\033[0m\n");
+	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
+	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
+	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
 }
 
 void marketMenu()
 {
-	
+	printf("\033[36m\033[3mMarket Menu\033[0m\n");
+	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
+	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
+	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
 }
 
 void blacksmithMenu()
 {
-	
+	printf("\033[33m\033[3mBlacksmith Menu\033[0m\n");
+	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
+	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
+	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
 }
 
 void gamblingMenu()
 {
-	
+	printf("\033[32m\033[3mGambling Menu\033[0m\n");
+	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
+	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
+	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
 }
 
 void PrintBoard()
