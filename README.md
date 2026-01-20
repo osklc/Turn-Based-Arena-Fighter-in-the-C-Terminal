@@ -5,16 +5,16 @@ A turn-based arena combat game written in C, running in the Windows console term
 ---
 
 ## 📖 Table of Contents
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Building](#building)
-- [How to Play](#how-to-play)
-- [Game Zones](#game-zones)
-- [Character Stats](#character-stats)
-- [Development Status](#development-status)
-- [Roadmap](#roadmap)
-- [Technical Details](#technical-details)
+- [Features](#-features)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Building](#-building)
+- [How to Play](#-how-to-play)
+- [Game Zones](#-game-zones)
+- [Character Stats](#-character-stats)
+- [Development Status](#-development-status)
+- [Roadmap](#-roadmap)
+- [Technical Details](#-technical-details)
 
 ---
 
@@ -61,7 +61,7 @@ A turn-based arena combat game written in C, running in the Windows console term
 
 ### For Developers: Build from Source
 
-See [Building](#building) section below to compile the game yourself.
+See [Building](#-building) section below to compile the game yourself.
 
 ---
 
