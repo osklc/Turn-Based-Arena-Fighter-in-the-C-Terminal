@@ -55,10 +55,7 @@ A turn-based arena combat game written in C, running in the Windows console term
 
 1. Go to [Releases](https://github.com/osklc/Turn-Based-Arena-Fighter-in-the-C-Terminal/releases)
 2. Download `game.exe` from the latest release
-3. Run it directly:
-```bash
-.\game.exe
-```
+3. Run it directly
 
 **No installation, no compilation needed!** The executable is ready to play.
 
