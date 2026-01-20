@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <windows.h>
+#include "WARMENU_.h"
+#include "MARKETMENU_.h"
+#include "GAMBLINGMENU_.h"
+#include "BLACKSMITHMENU_.h"
 
 int row=0;
 int column=0;
@@ -16,18 +20,12 @@ void hideCursor();
 void gotoxy(int x, int y);
 void cursorControl();
 void PrintBoard();
-void warMenu();
-void marketMenu();
-void blacksmithMenu();
-void gamblingMenu();
 
 int main() 
 {
 	hideCursor();
 	gotoxy(0,0);
 	FirstIntroductionMenu();
-	
-	
 	return 0;
 }
 
@@ -49,14 +47,11 @@ void hideCursor() {
 void FirstIntroductionMenu()
 {
 	cursorControl();
-	
-	
 }
-
 
 void cursorControl()
 {
-	char selectedDirection;
+	char selectedDirection = '\0';
 	
 	while(selectedDirection != 'F' && selectedDirection != 'f')
 	{
@@ -113,38 +108,6 @@ void cursorControl()
 		}
         
 	}
-}
-
-void warMenu()
-{
-	printf("\033[35m\033[3mWar Menu\033[0m\n");
-	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
-	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
-	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
-}
-
-void marketMenu()
-{
-	printf("\033[36m\033[3mMarket Menu\033[0m\n");
-	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
-	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
-	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
-}
-
-void blacksmithMenu()
-{
-	printf("\033[33m\033[3mBlacksmith Menu\033[0m\n");
-	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
-	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
-	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
-}
-
-void gamblingMenu()
-{
-	printf("\033[32m\033[3mGambling Menu\033[0m\n");
-	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
-	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
-	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
 }
 
 void PrintBoard()
