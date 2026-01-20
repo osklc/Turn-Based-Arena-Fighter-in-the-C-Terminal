@@ -6,5 +6,10 @@
 extern int charHealth;
 extern int charDurability;
 extern int charGold;
+extern int row;
+extern int column;
+extern void FirstIntroductionMenu();
 
 void gamblingMenu();
+void cursorControlGambling();
+void PrintBoardGambling();

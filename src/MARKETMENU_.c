@@ -5,14 +5,10 @@
 
 #include "../include/MARKETMENU_.h"
 
-char boardMarket[4][30] = {"Buy Health Potion (50 Gold)","Buy Damage Scroll (120 Gold)","Buy Revive Token (300 Gold)","Sell Items"};
+char boardMarket[4][30] = {"Buy Health Potion - 50G","Buy Damage Scroll - 120G","Buy Revive Token - 300G","Sell Items"};
 
 void marketMenu()
 {
-	printf("\033[36m\033[3mMarket Menu\033[0m\n");
-	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
-	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
-	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
 	cursorControlMarket();
 }
 
@@ -23,7 +19,10 @@ void cursorControlMarket()
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		printf("\033[31m\033[3mMarket Menu\033[0m\n");
+		printf("\033[96m\033[3mMARKET MENU\033[0m\n");
+		printf("\033[31m\033[1mHealth:\033[0m %d",charHealth);
+		printf("\n\033[36m\033[1mDurability:\033[0m %d",charDurability);
+		printf("\n\033[33m\033[1mGold:\033[0m %d\n",charGold);
 		PrintBoardMarket();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu");
@@ -77,29 +76,50 @@ void cursorControlMarket()
 
 void PrintBoardMarket()
 {
-	int i,j;
+	int i,j,m,n;
+	int columnSize = 4;
 	
 	for(i=0;i<1;i++)
 	{
-		printf(" \033[4m                                                                                                                       \033[0m\n");
-		printf("|                                 |                                  |                                 |                |\033[31m\033[3mHealth:\033[0m %d\n",charHealth);
-		for(j=0;j<=4;j++)
+		for(m=0;m<columnSize;m++)
+		{
+			printf(" ");
+			for(n=0;n<strlen(boardMarket[m])+6;n++)
+			{
+				printf("\033[4m ");
+			}
+		}
+		printf("\033[0m\n");
+		for(m=0;m<columnSize;m++)
+		{
+			printf("|");
+			for(n=0;n<strlen(boardMarket[m])+6;n++)
+			{
+				printf(" ");
+			}
+		}
+		printf("|\n");
+		for(j=0;j<columnSize;j++)
 		{
 			printf("|");
 			if(i==row && j== column)
 			{
 				printf("  [%s]  ",boardMarket[j]);
 			}
-			else if(j==4)
-			{
-				printf("\033[36m\033[3mDurability:\033[0m %d",charDurability);
-			}
 			else
 			{
 				printf("   %s   ",boardMarket[j]);
 			}
 		}
-		printf("\n");
-		printf("|\033[4m                                 |                                  |                                 |                \033[0m|\033[33m\033[3mGold:\033[0m %d\n",charGold);
+		printf("|\n");
+		for(m=0;m<columnSize;m++)
+		{
+			printf("|");
+			for(n=0;n<strlen(boardMarket[m])+6;n++)
+			{
+				printf("\033[4m ");
+			}
+		}
+		printf("\033[0m|\n");
 	}
 }

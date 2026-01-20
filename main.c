@@ -9,7 +9,7 @@
 
 int row=0;
 int column=0;
-char board[4][20] = {"War","Market","Blacksmith","Gambling"};
+char boardMain[4][20] = {"War","Market","Blacksmith","Gambling"};
 int charHealth = 100;
 int charDurability = 100;
 int charGold = 0;
@@ -59,7 +59,7 @@ void cursorControl()
 	while(selectedDirection != 'F' && selectedDirection != 'f')
 	{
 		system("cls");
-		printf("\033[31m\033[3mMAIN MENU\033[0m\n");
+		printf("\033[94m\033[3mMAIN MENU\033[0m\n");
 		printf("\033[31m\033[1mHealth:\033[0m %d\n",charHealth);
 		printf("\033[36m\033[1mDurability:\033[0m %d\n",charDurability);
 		printf("\033[33m\033[1mGold:\033[0m %d\n",charGold);
@@ -118,26 +118,50 @@ void cursorControl()
 
 void PrintBoard()
 {
-	int i,j;
+	int i,j,m,n;
+	int columnSize = 4;
 	
 	for(i=0;i<1;i++)
 	{
-		printf(" \033[4m                                                      \033[0m\n");
-		printf("|         |            |                |              |\n");
-		for(j=0;j<4;j++)
+		for(m=0;m<columnSize;m++)
+		{
+			printf(" ");
+			for(n=0;n<strlen(boardMain[m])+6;n++)
+			{
+				printf("\033[4m ");
+			}
+		}
+		printf("\033[0m\n");
+		for(m=0;m<columnSize;m++)
+		{
+			printf("|");
+			for(n=0;n<strlen(boardMain[m])+6;n++)
+			{
+				printf(" ");
+			}
+		}
+		printf("|\n");
+		for(j=0;j<columnSize;j++)
 		{
 			printf("|");
 			if(i==row && j== column)
 			{
-				printf("  [%s]  ",board[j]);
+				printf("  [%s]  ",boardMain[j]);
 			}
 			else
 			{
-				printf("   %s   ",board[j]);
+				printf("   %s   ",boardMain[j]);
 			}
 		}
-		printf("|");
-		printf("\n");
-		printf("|\033[4m         |            |                |              \033[0m|");
+		printf("|\n");
+		for(m=0;m<columnSize;m++)
+		{
+			printf("|");
+			for(n=0;n<strlen(boardMain[m])+6;n++)
+			{
+				printf("\033[4m ");
+			}
+		}
+		printf("\033[0m|\n");
 	}
 }

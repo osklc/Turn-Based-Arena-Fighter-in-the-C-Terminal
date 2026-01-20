@@ -9,6 +9,10 @@ char boardWar[4][20] = {"Quick Attack","Heavy Attack","Block","Heal"};
 
 void warMenu()
 {
+	printf("\033[36m\033[3mMarket Menu\033[0m\n");
+	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
+	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
+	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
 	cursorControlWar();
 }
 
@@ -19,7 +23,7 @@ void cursorControlWar()
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		printf("\033[35m\033[3mWAR MENU\033[0m\n");
+		printf("\033[95m\033[3mWAR MENU\033[0m\n");
 		printf("\033[31m\033[1mHealth:\033[0m %d\n",charHealth);
 		printf("\033[36m\033[1mDurability:\033[0m %d\n",charDurability);
 		printf("\033[33m\033[1mGold:\033[0m %d\n",charGold);
@@ -76,13 +80,30 @@ void cursorControlWar()
 
 void PrintBoardWar()
 {
-	int i,j;
+	int i,j,m,n;
+	int columnSize = 4;
 	
 	for(i=0;i<1;i++)
 	{
-		printf(" \033[4m                                                            \033[0m\n");
-		printf("|                  |                  |           |          |\n");
-		for(j=0;j<4;j++)
+		for(m=0;m<columnSize;m++)
+		{
+			printf(" ");
+			for(n=0;n<strlen(boardWar[m])+6;n++)
+			{
+				printf("\033[4m ");
+			}
+		}
+		printf("\033[0m\n");
+		for(m=0;m<columnSize;m++)
+		{
+			printf("|");
+			for(n=0;n<strlen(boardWar[m])+6;n++)
+			{
+				printf(" ");
+			}
+		}
+		printf("|\n");
+		for(j=0;j<columnSize;j++)
 		{
 			printf("|");
 			if(i==row && j== column)
@@ -94,8 +115,15 @@ void PrintBoardWar()
 				printf("   %s   ",boardWar[j]);
 			}
 		}
-		printf("|");
-		printf("\n");
-		printf("|\033[4m                  |                  |           |          \033[0m|\n");
+		printf("|\n");
+		for(m=0;m<columnSize;m++)
+		{
+			printf("|");
+			for(n=0;n<strlen(boardWar[m])+6;n++)
+			{
+				printf("\033[4m ");
+			}
+		}
+		printf("\033[0m|\n");
 	}
 }
