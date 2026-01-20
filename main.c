@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <windows.h>
-#include "WARMENU_.h"
-#include "MARKETMENU_.h"
-#include "GAMBLINGMENU_.h"
-#include "BLACKSMITHMENU_.h"
-#include "CURSORCONTROL_.h"
+#include "menus/WARMENU_.h"
+#include "menus/MARKETMENU_.h"
+#include "menus/GAMBLINGMENU_.h"
+#include "menus/BLACKSMITHMENU_.h"
+#include "menus/CURSORCONTROL_.h"
 
 int row=0;
 int column=0;
