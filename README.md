@@ -7,6 +7,7 @@ A turn-based arena combat game written in C, running in the Windows console term
 ## 📖 Table of Contents
 - [Features](#-features)
 - [Requirements](#-requirements)
+- [Quick Start](#-quick-start)
 - [Installation](#-installation)
 - [Building](#-building)
 - [How to Play](#-how-to-play)
@@ -14,7 +15,7 @@ A turn-based arena combat game written in C, running in the Windows console term
 - [Character Stats](#-character-stats)
 - [Development Status](#-development-status)
 - [Roadmap](#-roadmap)
-- [Technical Details](#-technical-details)
+- [Technical Details](#️-technical-details)
 
 ---
 
@@ -203,7 +204,7 @@ This is an early-stage prototype for educational and development purposes.
 
 ---
 
-## 🛠️ Technical Details
+## <a name="technical-details"></a>🛠️ Technical Details
 
 ### Project Structure
 ```
