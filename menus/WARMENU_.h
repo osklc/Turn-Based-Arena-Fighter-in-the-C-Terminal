@@ -6,6 +6,9 @@
 extern int charHealth;
 extern int charDurability;
 extern int charGold;
-extern void cursorControl(char title[]);
+extern int row;
+extern int column;
+extern void cursorControlWar();
+extern void FirstIntroductionMenu();
 
 void warMenu();
