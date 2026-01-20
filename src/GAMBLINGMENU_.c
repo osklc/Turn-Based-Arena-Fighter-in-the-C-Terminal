@@ -3,7 +3,7 @@
 #include <conio.h>
 #include <windows.h>
 
-#include "GAMBLINGMENU_.h"
+#include "../include/GAMBLINGMENU_.h"
 
 void gamblingMenu()
 {

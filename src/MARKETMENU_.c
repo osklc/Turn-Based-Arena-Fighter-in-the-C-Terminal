@@ -3,28 +3,28 @@
 #include <conio.h>
 #include <windows.h>
 
-#include "WARMENU_.h"
+#include "../include/MARKETMENU_.h"
 
-char boardWar[4][20] = {"Quick Attack","Heavy Attack","Block","Heal"};
+char boardMarket[4][30] = {"Buy Health Potion (50 Gold)","Buy Damage Scroll (120 Gold)","Buy Revive Token (300 Gold)","Sell Items"};
 
-void warMenu()
+void marketMenu()
 {
-	printf("\033[35m\033[3mWar Menu\033[0m\n");
+	printf("\033[36m\033[3mMarket Menu\033[0m\n");
 	printf("\n\033[31m\033[3mHealth:\033[0m %d",charHealth);
 	printf("\n\033[36m\033[3mDurability:\033[0m %d",charDurability);
 	printf("\n\033[33m\033[3mGold:\033[0m %d",charGold);
-	cursorControlWar();
+	cursorControlMarket();
 }
 
-void cursorControlWar()
+void cursorControlMarket()
 {
 	char selectedDirection = '\0';
 	
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		printf("\033[31m\033[3mWar Menu\033[0m\n");
-		PrintBoardWar();
+		printf("\033[31m\033[3mMarket Menu\033[0m\n");
+		PrintBoardMarket();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu");
 		selectedDirection = getch();
@@ -75,28 +75,31 @@ void cursorControlWar()
 	}
 }
 
-void PrintBoardWar()
+void PrintBoardMarket()
 {
 	int i,j;
 	
 	for(i=0;i<1;i++)
 	{
-		printf("--------------------------------------------------------------\n");
-		printf("|                  |                  |           |          |\n");
-		for(j=0;j<4;j++)
+		printf(" \033[4m                                                                                                                       \033[0m\n");
+		printf("|                                 |                                  |                                 |                |\033[31m\033[3mHealth:\033[0m %d\n",charHealth);
+		for(j=0;j<=4;j++)
 		{
 			printf("|");
 			if(i==row && j== column)
 			{
-				printf("  [%s]  ",boardWar[j]);
+				printf("  [%s]  ",boardMarket[j]);
+			}
+			else if(j==4)
+			{
+				printf("\033[36m\033[3mDurability:\033[0m %d",charDurability);
 			}
 			else
 			{
-				printf("   %s   ",boardWar[j]);
+				printf("   %s   ",boardMarket[j]);
 			}
 		}
-		printf("|");
 		printf("\n");
-		printf("|__________________|__________________|___________|__________|\n");
+		printf("|\033[4m                                 |                                  |                                 |                \033[0m|\033[33m\033[3mGold:\033[0m %d\n",charGold);
 	}
 }

@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <windows.h>
-#include "menus/WARMENU_.h"
-#include "menus/MARKETMENU_.h"
-#include "menus/GAMBLINGMENU_.h"
-#include "menus/BLACKSMITHMENU_.h"
+#include "include/WARMENU_.h"
+#include "include/MARKETMENU_.h"
+#include "include/GAMBLINGMENU_.h"
+#include "include/BLACKSMITHMENU_.h"
 
 int row=0;
 int column=0;
@@ -25,6 +25,8 @@ int main()
 {
 	hideCursor();
 	gotoxy(0,0);
+	printf("\033[31m\033[3mBLOODTHIRSTY KHESHIG\033[0m\n");
+	Sleep(1000);
 	FirstIntroductionMenu();
 	return 0;
 }
@@ -46,6 +48,7 @@ void hideCursor() {
 
 void FirstIntroductionMenu()
 {
+
 	cursorControl();
 }
 
@@ -56,7 +59,10 @@ void cursorControl()
 	while(selectedDirection != 'F' && selectedDirection != 'f')
 	{
 		system("cls");
-		printf("\033[31m\033[3mBloodthirsty Kheshig\033[0m\n");
+		printf("\033[31m\033[3mMAIN MENU\033[0m\n");
+		printf("\033[31m\033[1mHealth:\033[0m %d\n",charHealth);
+		printf("\033[36m\033[1mDurability:\033[0m %d\n",charDurability);
+		printf("\033[33m\033[1mGold:\033[0m %d\n",charGold);
 		PrintBoard();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Quit");
@@ -116,7 +122,7 @@ void PrintBoard()
 	
 	for(i=0;i<1;i++)
 	{
-		printf("--------------------------------------------------------\n");
+		printf(" \033[4m                                                      \033[0m\n");
 		printf("|         |            |                |              |\n");
 		for(j=0;j<4;j++)
 		{
@@ -132,6 +138,6 @@ void PrintBoard()
 		}
 		printf("|");
 		printf("\n");
-		printf("|_________|____________|________________|______________|\n");
+		printf("|\033[4m         |            |                |              \033[0m|");
 	}
 }
