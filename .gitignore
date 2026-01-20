@@ -5,7 +5,6 @@
 *.txt
 *.idea
 *.vscode
-*.bat
 *MakeFile
 *.png
 *.jpg
