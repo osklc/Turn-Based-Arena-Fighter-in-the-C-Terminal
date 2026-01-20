@@ -8,7 +8,8 @@ extern int charDurability;
 extern int charGold;
 extern int row;
 extern int column;
-extern void cursorControlWar();
 extern void FirstIntroductionMenu();
 
 void warMenu();
+void cursorControlWar();
+void PrintBoardWar();

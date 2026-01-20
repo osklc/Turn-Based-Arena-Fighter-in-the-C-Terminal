@@ -5,8 +5,6 @@
 
 #include "WARMENU_.h"
 
-void PrintBoardWar();
-
 char boardWar[4][20] = {"Quick Attack","Heavy Attack","Block","Heal"};
 
 void warMenu()
