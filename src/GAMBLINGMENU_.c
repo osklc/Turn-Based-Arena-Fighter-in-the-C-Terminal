@@ -20,9 +20,12 @@ void cursorControlGambling()
 	{
 		system("cls");
 		printf("\033[92m\033[3mGAMBLING MENU\033[0m\n");
-		printf("\033[31m\033[1mHealth:\033[0m %d",charHealth);
-		printf("\n\033[36m\033[1mDurability:\033[0m %d",charDurability);
-		printf("\n\033[33m\033[1mGold:\033[0m %d\n",charGold);
+		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
+		printf("\033[31mMax Health:\033[0m %d\n",kheshig.maxHealth);
+		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
+		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
+		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
+		printf("\033[33mDefense:\033[0m %d\n",kheshig.defense);
 		PrintBoardGambling();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu");
@@ -63,8 +66,8 @@ void cursorControlGambling()
 		}
 		else
 		{
-			printf("\n\033[3m\033[31mERROR:\033[0m %c is not a valid value. Please enter valid input!", selectedDirection);
-			Sleep(1000);
+			//printf("\n\033[3m\033[31mERROR:\033[0m %c is not a valid value. Please enter valid input!", selectedDirection);
+			//Sleep(1000);
 		}
         
 	}

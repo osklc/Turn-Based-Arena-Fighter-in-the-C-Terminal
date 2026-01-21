@@ -10,9 +10,8 @@
 int row=0;
 int column=0;
 char boardMain[4][20] = {"War","Market","Blacksmith","Gambling"};
-int charHealth = 100;
-int charDurability = 100;
-int charGold = 0;
+
+struct Player kheshig;
 
 //Prototype
 void FirstIntroductionMenu();
@@ -20,6 +19,8 @@ void hideCursor();
 void gotoxy(int x, int y);
 void PrintBoard();
 void cursorControl();
+int checkSave();
+void gameSave();
 
 int main() 
 {
@@ -27,8 +28,48 @@ int main()
 	gotoxy(0,0);
 	printf("\033[31m\033[3mBLOODTHIRSTY KHESHIG\033[0m\n");
 	Sleep(1000);
+
+	if (checkSave() == 0)
+	{
+		//printf("New game");
+
+		kheshig.attack=1;
+		kheshig.defense=1;
+		kheshig.gold=0;
+		kheshig.level=0;
+		kheshig.health=100;
+		kheshig.maxHealth=100;
+		gameSave();
+	}
 	FirstIntroductionMenu();
 	return 0;
+}
+
+int checkSave()
+{
+	FILE *fp = fopen("data/save.dat","rb");
+	if(fp == NULL) 
+	{
+		return 0;
+	}
+	fread(&kheshig, sizeof(struct Player), 1, fp);
+	fclose(fp);
+	return 1;
+}
+
+void gameSave() 
+{
+    FILE *fp = fopen("data/save.dat","wb");
+    if (fp != NULL) {
+        fwrite(&kheshig, sizeof(struct Player), 1, fp);
+        fclose(fp);
+		//Sleep(1000);
+        //printf(">> Game Saved <<\n");
+    }
+	else {
+		//Sleep(1000);
+        //printf("ERROR: Save file cant open!\n");
+    }
 }
 
 void gotoxy(int x, int y) {
@@ -60,9 +101,12 @@ void cursorControl()
 	{
 		system("cls");
 		printf("\033[94m\033[3mMAIN MENU\033[0m\n");
-		printf("\033[31m\033[1mHealth:\033[0m %d\n",charHealth);
-		printf("\033[36m\033[1mDurability:\033[0m %d\n",charDurability);
-		printf("\033[33m\033[1mGold:\033[0m %d\n",charGold);
+		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
+		printf("\033[31mMax Health:\033[0m %d\n",kheshig.maxHealth);
+		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
+		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
+		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
+		printf("\033[33mDefense:\033[0m %d\n",kheshig.defense);
 		PrintBoard();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Quit");
@@ -113,8 +157,8 @@ void cursorControl()
 		}
 		else
 		{
-			printf("\n\033[3m\033[31mERROR:\033[0m %c is not a valid value. Please enter valid input!", selectedDirection);
-			Sleep(1000);
+			//printf("\n\033[3m\033[31mERROR:\033[0m %c is not a valid value. Please enter valid input!", selectedDirection);
+			//Sleep(1000);
 		}
         
 	}

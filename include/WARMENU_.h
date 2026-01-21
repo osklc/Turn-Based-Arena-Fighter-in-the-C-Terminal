@@ -3,9 +3,16 @@
 #include <conio.h>
 #include <windows.h>
 
-extern int charHealth;
-extern int charDurability;
-extern int charGold;
+struct Player{
+    int health;
+	int maxHealth;
+    int gold;
+    int level;
+	int attack;
+	int defense;
+};
+extern struct Player kheshig;
+
 extern int row;
 extern int column;
 extern void FirstIntroductionMenu();
