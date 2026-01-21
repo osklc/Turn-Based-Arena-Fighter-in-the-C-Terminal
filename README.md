@@ -168,7 +168,7 @@ Test your luck with gambling games to increase or lose gold.
 - ✅ Console UI with colors
 - ✅ Automated build system
 - ❌ Functional game mechanics
-- ❌ Save/Load system
+- ✅ Save/Load system
 - ❌ Combat calculations
 - ❌ AI opponents
 
