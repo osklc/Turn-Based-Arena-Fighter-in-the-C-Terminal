@@ -109,7 +109,7 @@ void PrintBoardWar()
 			printf("|");
 			if(i==row && j== column)
 			{
-				printf("  [%s]  ",boardWar[j]);
+				printf("  \033[92m[%s]\033[0m  ",boardWar[j]);
 			}
 			else
 			{

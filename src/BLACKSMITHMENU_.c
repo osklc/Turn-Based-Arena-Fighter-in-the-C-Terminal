@@ -99,7 +99,7 @@ void PrintBoardBlacksmith()
 			printf("|");
 			if(i==row && j== column)
 			{
-				printf("  [%s]  ",boardBlacksmith[j]);
+				printf("  \033[92m[%s]\033[0m  ",boardBlacksmith[j]);
 			}
 			else
 			{

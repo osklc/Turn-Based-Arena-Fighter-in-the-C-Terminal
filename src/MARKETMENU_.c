@@ -105,7 +105,7 @@ void PrintBoardMarket()
 			printf("|");
 			if(i==row && j== column)
 			{
-				printf("  [%s]  ",boardMarket[j]);
+				printf("  \033[92m[%s]\033[0m  ",boardMarket[j]);
 			}
 			else
 			{

@@ -150,7 +150,7 @@ void PrintBoard()
 			printf("|");
 			if(i==row && j== column)
 			{
-				printf("  [%s]  ",boardMain[j]);
+				printf("  \033[92m[%s]\033[0m  ",boardMain[j]);
 			}
 			else
 			{
