@@ -16,6 +16,7 @@ extern struct Player kheshig;
 extern int row;
 extern int column;
 extern void FirstIntroductionMenu();
+extern void gameSave();
 
 void blacksmithMenu();
 void cursorControlBlacksmith();
