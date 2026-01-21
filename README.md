@@ -184,7 +184,7 @@ This is an early-stage prototype for educational and development purposes.
 - [ ] Implement functional Market Menu mechanics
 - [ ] Implement functional Blacksmith Menu mechanics
 - [ ] Implement functional Gambling Menu mechanics
-- [ ] **Create save file system (.sav format)** - Character stats will be persisted to disk
+- [ ] **Create save file system (.dat format)** - Character stats will be persisted to disk
 - [ ] **Character stats persistence** - Load and save character progress between sessions
 - [ ] Load game state from save files
 
