@@ -21,7 +21,6 @@ void cursorControlGambling()
 		system("cls");
 		printf("\033[92m\033[3mGAMBLING MENU\033[0m\n");
 		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
-		printf("\033[31mMax Health:\033[0m %d\n",kheshig.maxHealth);
 		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
 		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
 		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);

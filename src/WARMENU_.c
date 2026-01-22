@@ -7,10 +7,90 @@
 
 char boardWar[4][20] = {"Quick Attack","Heavy Attack","Block","Heal"};
 
+char places[3][20] = {"Northern Forests", "Hell", "Glacial Mountains"};
+
+
+Enemy enemyPool[] = {
+    // --- NORTHERN FORESTS (Level 1 - 10) ---
+    // Low defense, medium health. Warm-up rounds.
+    {"Northern Forests", "Shadow-Paw Warg",     45,  12,  2,  15, 1, 1},
+    {"Northern Forests", "Forest Outcast",      60,  15,  4,  25, 1, 3},
+    {"Northern Forests", "Blind Ravager",       85,  22,  8,  45, 2, 6},
+    {"Northern Forests", "Moss-Skin Troll",     150, 20,  15, 80, 3, 9}, //Boss
+
+    // --- HELL (Level 10 - 20) ---
+    // High attack power (Glass cannon). They hit hard but their health isn't very high.
+    {"Hell", "Soul Burner Imp",                 100, 35,  10, 100, 2, 10},
+    {"Hell", "Inferno Reaver",                  130, 42,  15, 150, 3, 13},
+    {"Hell", "Cursed Soul Eater",               160, 48,  20, 200, 4, 16},
+    {"Hell", "Molten Behemoth",                 250, 55,  35, 350, 5, 19}, //Tank Boss
+
+    // --- GLACIAL MOUNTAINS (Level 20 - 30+) ---
+    // High defense and manpower. Battles are long and strategic.
+    {"Glacial Mountains", "Snow Stalker Drake", 200, 60,  25, 400, 4, 20},
+    {"Glacial Mountains", "Glacier Wraith",     220, 65,  30, 500, 4, 23},
+    {"Glacial Mountains", "Ice Clad Berserker", 280, 75,  40, 650, 5, 26},
+    {"Glacial Mountains", "Ice Golem",          450, 70,  60, 900, 6, 30}  //Boss
+};
+
+
 void warMenu()
 {
 
-	cursorControlWar();
+	warPanel();
+}
+
+void warPanel()
+{
+	char viewPlace[1][20];
+	strcpy(viewPlace[0], places[0]);
+	char viewLine[] = "==================================================";
+	char viewHeader[100];
+	sprintf(viewHeader, "BLOODTHIRSTY KHESHIG - %s", viewPlace[0]);
+
+	int viewDiff = strlen(viewLine) - strlen(viewHeader);
+
+	printf("%s\n",viewLine);
+	for(int i=0;i<viewDiff/2;i++)
+	{
+		printf(" ");
+	}
+	printf("%s", viewHeader);
+	printf("\n%s\n", viewLine);
+	
+	char choicedEnemiesName[1][20];
+	strcpy(choicedEnemiesName[0], enemyPool[0].name);
+
+	
+	printf("  ");
+	printf("[KHESHIG]");
+	for(int j=0;j<35-strlen(choicedEnemiesName[0]);j++)
+	{
+		printf(" ");
+	}
+	printf("[%s]",choicedEnemiesName[0]);
+	printf("\n  ");
+
+	int kheshigActiveHP = kheshig.health;
+	char kheshigHP[20];
+	snprintf(kheshigHP, 20,"HP: %d/%d", kheshigActiveHP, kheshig.health);
+
+	int enemyActiveHP = enemyPool[0].health;
+	char enemyHP[20];
+	snprintf(enemyHP, 20, "HP: %d/%d", enemyActiveHP, enemyPool[0].health);
+
+	printf("%s", kheshigHP);
+
+	for(int j=0;j<44-strlen(choicedEnemiesName[0])-strlen(kheshigHP);j++)
+	{
+		printf(" ");
+	}
+
+	printf("%s", enemyHP);
+
+	printf("\n%s\n", viewLine);
+
+	getch();
 }
 
 void cursorControlWar()
@@ -20,9 +100,7 @@ void cursorControlWar()
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		printf("\033[95m\033[3mWAR MENU\033[0m\n");
 		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
-		printf("\033[31mMax Health:\033[0m %d\n",kheshig.maxHealth);
 		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
 		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
 		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);

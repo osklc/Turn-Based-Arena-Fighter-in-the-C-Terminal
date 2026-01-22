@@ -5,7 +5,6 @@
 
 struct Player{
     int health;
-	int maxHealth;
     int gold;
     int level;
 	int attack;
