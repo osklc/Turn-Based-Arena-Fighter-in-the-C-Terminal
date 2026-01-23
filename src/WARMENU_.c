@@ -94,11 +94,57 @@ void warPanel()
 
 	printf("  1. Quick Attack (90%% Accuracy - Low Damage)\n");
 	printf("  2. Heavy Strike (50%% Accuracy - High Damage)\n");
-	printf("  3. Defense (Reduces Damage)\n");
+	printf("  3. Defense (50%% Damage Reduction)\n");
 	printf("  4. Retreat (Escape Battle - Lose Gold)\n");
 
 	printf("%s\n", viewLine);
 
+	char selectedPreference;
+
+	do
+	{
+		selectedPreference = getch();
+		if(selectedPreference == '1')
+        {
+			system("cls");
+			quickAttack();
+			break;
+        }
+		else if(selectedPreference == '2')
+        {
+			system("cls");
+			heavyStrike();
+			break;
+        }
+		else if(selectedPreference == '3')
+        {
+			system("cls");
+			defense();
+			break;
+        }
+		else if(selectedPreference == '4')
+        {
+			system("cls");
+			retreat();
+			break;
+        }
+	} while(selectedPreference != '1' && selectedPreference != '2' && selectedPreference != '3' && selectedPreference != '4');
+}
+
+void quickAttack()
+{
+	getch();
+}
+void heavyStrike()
+{
+	getch();
+}
+void defense()
+{
+	getch();
+}
+void retreat()
+{
 	getch();
 }
 
@@ -106,7 +152,7 @@ void cursorControlWar()
 {
 	char selectedDirection = '\0';
 	
-	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
+	while(selectedDirection != 'F' && selectedDirection != 'f' && selectedDirection != 'Q' && selectedDirection != 'q')
 	{
 		system("cls");
 		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);

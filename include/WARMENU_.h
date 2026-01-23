@@ -32,3 +32,8 @@ void warMenu();
 void warPanel();
 void cursorControlWar();
 void PrintBoardWar();
+
+void quickAttack();
+void heavyStrike();
+void defense();
+void retreat();
