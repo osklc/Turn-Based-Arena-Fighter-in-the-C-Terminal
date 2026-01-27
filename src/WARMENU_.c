@@ -93,10 +93,11 @@ void warPanel(int currentHP, int currentEnemyHP)
 {
 	system("cls");
 	char viewLine[] = "========================================================";
-	char viewHeader[120];
-	snprintf(viewHeader, sizeof(viewHeader), "     \033[31mBLOODTHIRSTY KHESHIG\033[0m - \033[32m%s\033[0m", enemyPool[0].place);
+	char viewHeader[150];
+	snprintf(viewHeader, sizeof(viewHeader), "  \033[31mBLOODTHIRSTY KHESHIG\033[0m - \033[32m%s\033[0m", enemyPool[0].place);
 
-	int viewDiff = strlen(viewLine) - strlen(viewHeader);
+	int visibleLen = strlen("     BLOODTHIRSTY KHESHIG - ") + strlen(enemyPool[0].place);
+    int viewDiff = (int)strlen(viewLine) - visibleLen;
 
 	printf("%s\n",viewLine);
 	for(int i=0;i<viewDiff/2;i++)
