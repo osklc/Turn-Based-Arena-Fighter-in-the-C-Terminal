@@ -66,7 +66,7 @@ void appendWarLog(const char *line) {
 
 void makeAttackLog(char *out, size_t size,const char *attacker,const char *target,int damage)
 {
-    snprintf(out, size,"  %s attacks %s for %d damage\n",attacker, target, damage);
+    snprintf(out, size,"    %s attacks %s for %d damage\n",attacker, target, damage);
 }
 
 
@@ -183,21 +183,52 @@ void warPanel(int currentHP, int currentEnemyHP)
 
 void checkBattleStatus(int pHP, int eHP)
 {
+	char viewLineBattle[] = "===========================================================";
 	if(eHP <= 0)
 	{
-		printf("\n\033[32mKheshig Win!\033[0m\n");
-		printf("+%d Gold\n", enemyPool[0].goldReward);
+		system("cls");
+        printf("%s\n", viewLineBattle);
+		printf("                \033[32m\033[1m!!! BATTLE VICTORIOUS !!!\033[0m\n");
+        printf("%s\n", viewLineBattle);
+        
+        printf("\n    Kheshig has defeated the %s!\n", enemyPool[0].name);
+        printf("    The battlefield is stained with the blood of the enemy.\n");
+        
+        printf("\n    \033[33m[LOOT COLLECTED]\033[0m\n");
+		printf("    + %d Gold Coins\n", enemyPool[0].goldReward);
+        
 		kheshig.gold += enemyPool[0].goldReward;
 		gameSave();
+
+		printf("\n%s\n", viewLineBattle);
+		printf("      Press any key to return to the camp...");
+		printf("\n%s\n", viewLineBattle);
+		getch();
+		clearWarLog();
 		FirstIntroductionMenu();
 	}
 	else if(pHP <= 0)
 	{
+		system("cls");
 		int loss = (kheshig.gold * 25) / 100;
-		printf("\n\033[31mKheshig Defeated...\033[0m\n");
-		printf("-%d Gold\n", loss);
+        printf("%s\n", viewLineBattle);
+		printf("                \033[31m\033[1mXXX KHESHIG HAS FALLEN XXX\033[0m\n");
+        printf("%s\n", viewLineBattle);
+        
+        printf("\n    You were bested by the %s.\n", enemyPool[0].name);
+        printf("    Death is a cold companion in the %s...\n", enemyPool[0].place);
+        
+        printf("\n    \033[31m[PENALTIES]\033[0m\n");
+		printf("    - %d Gold Coins (Scavengers took their share)\n", loss);
+        
 		kheshig.gold -= loss;
 		gameSave();
+
+		printf("\n%s\n", viewLineBattle);
+		printf("      Press any key to recover at the camp...");
+		printf("\n%s\n", viewLineBattle);
+		getch();
+		clearWarLog();
 		FirstIntroductionMenu();
 	}
 	else
@@ -209,7 +240,16 @@ void checkBattleStatus(int pHP, int eHP)
 		char line[128];
 		makeAttackLog(line, sizeof(line), enemyPool[0].name, "Kheshig", enemyDmg);
 		appendWarLog(line);
-		warPanel(pHP - enemyDmg, eHP);
+		int nextPlayerHP = pHP - enemyDmg;
+
+		if(nextPlayerHP <= 0)
+		{
+			checkBattleStatus(0,eHP);
+		}
+		else
+		{
+			warPanel(nextPlayerHP, eHP);
+		}
 	}
 }
 
@@ -227,7 +267,7 @@ void quickAttack(int pHP, int eHP)
 	}
 	else
 	{
-		appendWarLog("  Kheshig missed their Quick Attack!\n");
+		appendWarLog("    Kheshig missed their Quick Attack!\n");
 		checkBattleStatus(pHP, eHP);
 	}
 }
@@ -246,7 +286,7 @@ void normalAttack(int pHP, int eHP)
 	}
 	else
 	{
-		appendWarLog("  Kheshig missed their Normal Attack!\n");
+		appendWarLog("    Kheshig missed their Normal Attack!\n");
 		checkBattleStatus(pHP, eHP);
 	}
 }
@@ -265,7 +305,7 @@ void heavyAttack(int pHP, int eHP)
 	}
 	else
 	{
-		appendWarLog("  Kheshig missed their Heavy Attack!\n");
+		appendWarLog("    Kheshig missed their Heavy Attack!\n");
 		checkBattleStatus(pHP, eHP);
 	}
 }
@@ -308,6 +348,8 @@ void cursorControlWar()
         {
         	if(column==0)
         	{
+				clearWarLog();
+                appendWarLog("    Battle started in Northern Forests!\n");
 				warPanel(kheshig.health, enemyPool[0].health);
 			}
 			else if(column==1)
