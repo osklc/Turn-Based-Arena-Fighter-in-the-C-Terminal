@@ -1,6 +1,6 @@
-# 🎮 Turn-Based Arena Fighter
+# 🐺 Bloodthirsty Kheshig
 
-A turn-based arena combat game written in C, running in the Windows console terminal. Battle through different zones, manage your character's stats, and engage in strategic gameplay.
+Bloodthirsty Kheshig is a turn-based arena combat game developed in C, running natively in the Windows terminal. Explore the ruthless world of the steppe, develop your character, and survive strategic battles to become a legend.
 
 ---
 
@@ -8,8 +8,7 @@ A turn-based arena combat game written in C, running in the Windows console term
 - [Features](#-features)
 - [Requirements](#️-requirements)
 - [Quick Start](#-quick-start)
-- [Installation](#-installation)
-- [Building](#-building)
+- [Installation & Building](#-installation)
 - [How to Play](#-how-to-play)
 - [Game Zones](#️-game-zones)
 - [Development Status](#-development-status)
@@ -23,6 +22,8 @@ A turn-based arena combat game written in C, running in the Windows console term
 ### Current Release (v0.1.0-alpha)
 - **Main Menu System** - Navigate between 4 game zones
 - **Character Stat Tracking** - Health, Durability, and Gold management
+- **Save System (Save/Load)** - Automatic progress saving via binary .dat files
+- **Dynamic Battle Log** - Real-time combat log to track damage and events
 - **Multiple Game Zones**:
   - ⚔️ War Menu - Combat encounters
   - 🏪 Market Menu - Trading hub
@@ -35,13 +36,14 @@ A turn-based arena combat game written in C, running in the Windows console term
 
 ## 🖥️ Requirements
 
-- **OS**: Windows (tested on Windows 10+)
+- **OS**: Windows (tested on Windows 10/11)
 - **Compiler**: GCC (via MSYS2 or MinGW)
 - **Build Tool**: Make (via MSYS2)
 - **Terminal**: Windows PowerShell or CMD
 
 ### Tested Environments
 - Dev C++ with MinGW
+- VS Code with GCC
 - MSYS2 (latest version)
 - GCC 11+
 
@@ -54,8 +56,9 @@ A turn-based arena combat game written in C, running in the Windows console term
 **Download and run the compiled executable:**
 
 1. Go to [Releases](https://github.com/osklc/Turn-Based-Arena-Fighter-in-the-C-Terminal/releases)
-2. Download `game.exe` from the latest release
-3. Run it directly
+2. Download the latest version from the Releases page.
+3. Extract the .zip file
+3. Run Bloodthirsty_Kheshig.exe
 
 **No installation, no compilation needed!** The executable is ready to play.
 
@@ -149,15 +152,12 @@ Test your luck with gambling games to increase or lose gold.
 
 ## 🚀 Development Status
 
-### Current Version: v0.1.0-alpha
-- ✅ Menu navigation system
-- ✅ Character stat display
-- ✅ Console UI with colors
-- ✅ Automated build system
-- ❌ Functional game mechanics
-- ✅ Save/Load system
-- ❌ Combat calculations
-- ❌ AI opponents
+### Current Version: v0.2.0 (Pre-Alpha)
+- ✅ Menu Navigation
+- ✅ Combat Mechanics (Basic Attacks, Enemy AI)
+- ✅ Save System (Save/Load)
+- ✅ Colored UI & Battle Log
+- ❌ Market & Blacksmith (Not implemented yet)
 
 ### Status: **Non-Production Ready**
 This is an early-stage prototype for educational and development purposes.
@@ -166,29 +166,29 @@ This is an early-stage prototype for educational and development purposes.
 
 ## 📋 Roadmap
 
-### v0.2.0 - Menu Systems & Save System
-- [x] Implement functional War Menu mechanics
+### v0.2.0 - Core Systems & Persistence (Completed)
+- [x] Combat Mechanics: Functional turn-based battle system.
+- [x] Save System: Persisting character data to disk using .dat format.
+- [x] Persistence: Loading character progress between sessions.
+- [x] Dynamic UI: Live health bars and scrolling battle logs.
+
+### v0.3.0 - Combat & AI (The "Tactical" Update)
 - [ ] Implement functional Market Menu mechanics
 - [ ] Implement functional Blacksmith Menu mechanics
-- [ ] Implement functional Gambling Menu mechanics
-- [x] **Create save file system (.dat format)** - Character stats will be persisted to disk
-- [x] **Character stats persistence** - Load and save character progress between sessions
-- [x] Load game state from save files
+- [ ] Implement functional Gambling (Mini-Game) mechanics
+- [ ] Stamina System: Attacks will consume energy, requiring strategic pauses.
+- [ ] Loot Drop: Enemies will have a chance to drop rare items (Stat boosters).
+- [ ] Dynamic XP & Gold: Rewards will vary based on RNG (Random Number Generation).
+- [ ] Level Scaling: XP required for next level will increase exponentially.
+- [ ] Balancing: Refined damage/defense formulas for fairer fights.
+- [ ] Expanded Market: Introduction of XP Potions and special scrolls.
 
-### v0.3.0 - Combat & AI
-- [ ] Turn-based combat system
-- [ ] Enemy AI implementation
-- [ ] Combat calculations and balance
-- [ ] Experience and leveling system
-- [ ] Add Stamina
-
-### v0.4.0+ - Advanced Features
-- [ ] Multiple character classes
-- [ ] Leaderboard system
-- [ ] Enhanced graphics and UI
-- [ ] Sound effects and music
-- [ ] Multiplayer support
-- [ ] Expanded content and storyline
+### v0.4.0+ - Atmosphere & Story
+- [ ] ANSI Art Storytelling: Visual narrative using colored ASCII art for regions and bosses.
+- [ ] Advanced Enemy AI: Enemies may flee or heal when low on health.
+- [ ] Multiple character classes (Warrior, Archer, Shaman)
+- [ ] Quest system
+- [ ] "Endless Mode" (Survival)
 
 ---
 
@@ -219,7 +219,7 @@ Turn-Based Arena Fighter/
 - `stdlib.h` - Standard library
 - `conio.h` - Console I/O
 - `windows.h` - Windows API (cursor control, console management)
-- `time.h` - Time functions (RNG seeding, timing, simple delays)
+- `time.h` - Time functions (RNG seeding, delays)
 - `string.h` - String handling and memory operations
 
 ### ANSI Escape Codes
@@ -267,5 +267,5 @@ Created: January 2026
 
 ---
 
-**Last Updated**: January 27, 2026  
+**Last Updated**: January 28, 2026  
 **Current Version**: v0.1.0-alpha (Non-Production Ready)
