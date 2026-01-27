@@ -10,6 +10,7 @@ struct Player{
     int level;
 	int attack;
 	int defense;
+    int xp;
 };
 extern struct Player kheshig;
 

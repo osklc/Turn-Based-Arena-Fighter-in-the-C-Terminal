@@ -110,18 +110,18 @@ void appendWarLog(const char *line) {
 
 void makeAttackLog(char *out, size_t size,const char *attacker,const char *target,int damage)
 {
-    snprintf(out, size,"    %s attacks %s for %d damage\n",attacker, target, damage);
+    snprintf(out, size,"  %s attacks %s for %d damage\n",attacker, target, damage);
 }
 
 
-void warPanel(int currentHP, int currentEnemyHP)
+void warPanel(int currentHP, int currentEnemyHP, int enemyIdx)
 {
 	system("cls");
 	char viewLine[] = "========================================================";
 	char viewHeader[150];
-	snprintf(viewHeader, sizeof(viewHeader), "  \033[31mBLOODTHIRSTY KHESHIG\033[0m - \033[32m%s\033[0m", enemyPool[0].place);
+	snprintf(viewHeader, sizeof(viewHeader), "  \033[31mBLOODTHIRSTY KHESHIG\033[0m - \033[32m%s\033[0m", enemyPool[enemyIdx].place);
 
-	int visibleLen = strlen("     BLOODTHIRSTY KHESHIG - ") + strlen(enemyPool[0].place);
+	int visibleLen = strlen("     BLOODTHIRSTY KHESHIG - ") + strlen(enemyPool[enemyIdx].place);
     int viewDiff = (int)strlen(viewLine) - visibleLen;
 
 	printf("%s\n",viewLine);
@@ -133,7 +133,7 @@ void warPanel(int currentHP, int currentEnemyHP)
 	printf("\n%s\n", viewLine);
 	
 	char choicedEnemiesName[30];
-	strcpy(choicedEnemiesName, enemyPool[0].name);
+	strcpy(choicedEnemiesName, enemyPool[enemyIdx].name);
 
 	
 	printf("  ");
@@ -148,7 +148,7 @@ void warPanel(int currentHP, int currentEnemyHP)
 	snprintf(kheshigHPStr, 25, "  HP: %d/%d", currentHP, kheshig.health);
 
 	char enemyHPStr[25];
-	snprintf(enemyHPStr, 25, "  HP: %d/%d", currentEnemyHP, enemyPool[0].health);
+	snprintf(enemyHPStr, 25, "  HP: %d/%d", currentEnemyHP, enemyPool[enemyIdx].health);
 
 	printf("%s", kheshigHPStr);
 
@@ -181,7 +181,7 @@ void warPanel(int currentHP, int currentEnemyHP)
 	printf("                 [");
 
 	int d = 0;
-	float enemyHpRatio = (float)currentEnemyHP / enemyPool[0].health;
+	float enemyHpRatio = (float)currentEnemyHP / enemyPool[enemyIdx].health;
 	if (enemyHpRatio < 0) enemyHpRatio = 0;
 	int enemyHealthBar = (int)(10 * enemyHpRatio);
 	while(d<10)
@@ -218,15 +218,15 @@ void warPanel(int currentHP, int currentEnemyHP)
 	char choice;
 	do {
 		choice = getch();
-		if(choice == '1') quickAttack(currentHP, currentEnemyHP);
-		else if(choice == '2') normalAttack(currentHP, currentEnemyHP);
-		else if(choice == '3') heavyAttack(currentHP, currentEnemyHP);
+		if(choice == '1') quickAttack(currentHP, currentEnemyHP, enemyIdx);
+		else if(choice == '2') normalAttack(currentHP, currentEnemyHP, enemyIdx);
+		else if(choice == '3') heavyAttack(currentHP, currentEnemyHP, enemyIdx);
 		else if(choice == '4') { /* in process */ }
-		else if(choice == '5') { escapeWar(); }
+		else if(choice == '5') { escapeWar(enemyIdx); }
 	} while(choice < '1' || choice > '5');
 }
 
-void escapeWar()
+void escapeWar(int enemyIdx)
 {
 	char viewLineEscape[] = "======================================================================";
 	system("cls");
@@ -238,7 +238,7 @@ void escapeWar()
 		int retreatCount = sizeof(retreatTexts) / sizeof(retreatTexts[0]);
         int idx = rand() % retreatCount;
         printf("\n    %s\n",retreatTexts[idx]);
-        printf("    The %s remains behind as you flee into the shadows...\n", enemyPool[0].name);
+        printf("    The %s remains behind as you flee into the shadows...\n", enemyPool[enemyIdx].name);
         
         printf("\n    \033[33m[CONSEQUENCES]\033[0m\n");
 		printf("    - %d Gold Coins (Lost while escaping in haste)\n", loss);
@@ -254,7 +254,7 @@ void escapeWar()
 		FirstIntroductionMenu();
 }
 
-void checkBattleStatus(int pHP, int eHP)
+void checkBattleStatus(int pHP, int eHP, int enemyIdx)
 {
 	char viewLineBattle[] = "===========================================================";
 	if(eHP <= 0)
@@ -264,15 +264,15 @@ void checkBattleStatus(int pHP, int eHP)
 		printf("                \033[32m\033[1m!!! BATTLE VICTORIOUS !!!\033[0m\n");
         printf("%s\n", viewLineBattle);
         
-        printf("\n    Kheshig has defeated the %s!\n", enemyPool[0].name);
+        printf("\n    Kheshig has defeated the %s!\n", enemyPool[enemyIdx].name);
 		int victoryCount = sizeof(victoryTexts) / sizeof(victoryTexts[0]);
         int idx = rand() % victoryCount;
         printf("    %s\n",victoryTexts[idx]);
         
         printf("\n    \033[33m[LOOT COLLECTED]\033[0m\n");
-		printf("    + %d Gold Coins\n", enemyPool[0].goldReward);
+		printf("    + %d Gold Coins\n", enemyPool[enemyIdx].goldReward);
         
-		kheshig.gold += enemyPool[0].goldReward;
+		kheshig.gold += enemyPool[enemyIdx].goldReward;
 		gameSave();
 
 		printf("\n%s\n", viewLineBattle);
@@ -290,11 +290,11 @@ void checkBattleStatus(int pHP, int eHP)
 		printf("                \033[31m\033[1mXXX KHESHIG HAS FALLEN XXX\033[0m\n");
         printf("%s\n", viewLineBattle);
         
-        printf("\n    You were bested by the %s.\n", enemyPool[0].name);
+        printf("\n    You were bested by the %s.\n", enemyPool[enemyIdx].name);
         
-		if(strcmp(enemyPool[0].place, "Northern Forests") == 0)
+		if(strcmp(enemyPool[enemyIdx].place, "Northern Forests") == 0)
 		{
-			printf("    Death is a cold companion in the %s...\n", enemyPool[0].place);
+			printf("    Death is a cold companion in the %s...\n", enemyPool[enemyIdx].place);
 		}
 
 		int defeatCount = sizeof(defeatTexts) / sizeof(defeatTexts[0]);
@@ -317,82 +317,99 @@ void checkBattleStatus(int pHP, int eHP)
 	else
 	{
 		int chanceFactor = 10 + rand() % 10;
-        int enemyDmg = (chanceFactor*(enemyPool[0].attack - kheshig.defense))/10;
+        int enemyDmg = (chanceFactor*(enemyPool[enemyIdx].attack - kheshig.defense))/10;
         if(enemyDmg < 1) enemyDmg = 1;
         
 		char line[128];
-		makeAttackLog(line, sizeof(line), enemyPool[0].name, "Kheshig", enemyDmg);
+		makeAttackLog(line, sizeof(line), enemyPool[enemyIdx].name, "Kheshig", enemyDmg);
 		appendWarLog(line);
 		int nextPlayerHP = pHP - enemyDmg;
 
 		if(nextPlayerHP <= 0)
 		{
-			checkBattleStatus(0,eHP);
+			checkBattleStatus(0,eHP,enemyIdx);
 		}
 		else
 		{
-			warPanel(nextPlayerHP, eHP);
+			warPanel(nextPlayerHP, eHP, enemyIdx);
 		}
 	}
 }
 
-void quickAttack(int pHP, int eHP)
+void quickAttack(int pHP, int eHP, int enemyIdx)
 {
 	int chance = rand() % 100;
 	if(chance < 90)
 	{
-		int dmg = kheshig.attack - enemyPool[0].defense;
+		int dmg = kheshig.attack - enemyPool[enemyIdx].defense;
         if(dmg < 1) dmg = 1;
 		char line[128];
-		makeAttackLog(line, sizeof(line), "Kheshig", enemyPool[0].name, dmg);
+		makeAttackLog(line, sizeof(line), "Kheshig", enemyPool[enemyIdx].name, dmg);
 		appendWarLog(line);
-		checkBattleStatus(pHP, eHP - dmg);
+		checkBattleStatus(pHP, eHP - dmg, enemyIdx);
 	}
 	else
 	{
-		appendWarLog("    Kheshig missed their Quick Attack!\n");
-		checkBattleStatus(pHP, eHP);
+		appendWarLog("  Kheshig missed their Quick Attack!\n");
+		checkBattleStatus(pHP, eHP, enemyIdx);
 	}
 }
 
-void normalAttack(int pHP, int eHP)
+void normalAttack(int pHP, int eHP, int enemyIdx)
 {
 	int chance = rand() % 100;
 	if(chance < 75)
 	{
-		int dmg = (int)(1.2 * (kheshig.attack - enemyPool[0].defense));
+		int dmg = (int)(1.2 * (kheshig.attack - enemyPool[enemyIdx].defense));
         if(dmg < 1) dmg = 1;
 		char line[128];
-		makeAttackLog(line, sizeof(line), "Kheshig", enemyPool[0].name, dmg);
+		makeAttackLog(line, sizeof(line), "Kheshig", enemyPool[enemyIdx].name, dmg);
 		appendWarLog(line);
-		checkBattleStatus(pHP, eHP - dmg);
+		checkBattleStatus(pHP, eHP - dmg, enemyIdx);
 	}
 	else
 	{
-		appendWarLog("    Kheshig missed their Normal Attack!\n");
-		checkBattleStatus(pHP, eHP);
+		appendWarLog("  Kheshig missed their Normal Attack!\n");
+		checkBattleStatus(pHP, eHP, enemyIdx);
 	}
 }
 
-void heavyAttack(int pHP, int eHP)
+void heavyAttack(int pHP, int eHP, int enemyIdx)
 {
 	int chance = rand() % 100;
 	if(chance < 40)
 	{
-		int dmg = 2 * (kheshig.attack - enemyPool[0].defense);
+		int dmg = 2 * (kheshig.attack - enemyPool[enemyIdx].defense);
         if(dmg < 1) dmg = 1;
 		char line[128];
-		makeAttackLog(line, sizeof(line), "Kheshig", enemyPool[0].name, dmg);
+		makeAttackLog(line, sizeof(line), "Kheshig", enemyPool[enemyIdx].name, dmg);
 		appendWarLog(line);
-		checkBattleStatus(pHP, eHP - dmg);
+		checkBattleStatus(pHP, eHP - dmg, enemyIdx);
 	}
 	else
 	{
-		appendWarLog("    Kheshig missed their Heavy Attack!\n");
-		checkBattleStatus(pHP, eHP);
+		appendWarLog("  Kheshig missed their Heavy Attack!\n");
+		checkBattleStatus(pHP, eHP, enemyIdx);
 	}
 }
 
+int getRandomEnemyIndex(int playerLevel)
+{
+	int validIndices[20];
+	int validCount = 0;
+
+	for (int i = 0; i < sizeof(enemyPool) / sizeof(Enemy); i++)
+	{
+		if(kheshig.level >= enemyPool[i].minLevel)
+		{
+			validIndices[validCount] = i;
+			validCount++;
+		}
+	}
+	if (validCount == 0) return 0;
+
+	return validIndices[rand() % validCount];
+}
 
 void cursorControlWar()
 {
@@ -432,8 +449,11 @@ void cursorControlWar()
         	if(column==0)
         	{
 				clearWarLog();
-                appendWarLog("    Battle started in Northern Forests!\n");
-				warPanel(kheshig.health, enemyPool[0].health);
+				int selectedEnemyIdx = getRandomEnemyIndex(kheshig.level);
+				char startMsg[150];
+    			sprintf(startMsg, "  A wild %s appeared in the %s!\n    Battle started in %s!\n",enemyPool[selectedEnemyIdx].name, enemyPool[selectedEnemyIdx].place,enemyPool[selectedEnemyIdx].place);
+				appendWarLog(startMsg);
+				warPanel(kheshig.health, enemyPool[selectedEnemyIdx].health, selectedEnemyIdx);
 			}
 			else if(column==1)
 			{

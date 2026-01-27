@@ -11,6 +11,7 @@ typedef struct Player{
     int level;
 	int attack;
 	int defense;
+    int xp;
 }Player;
 extern struct Player kheshig;
 
@@ -31,16 +32,16 @@ extern void FirstIntroductionMenu();
 extern void gameSave();
 
 void warMenu();
-void warPanel(int currentHP, int currentEnemyHP);
+void warPanel(int currentHP, int currentEnemyHP, int enemyIdx);
 void cursorControlWar();
 void PrintBoardWar();
-void escapeWar();
+void escapeWar(int enemyIdx);
 
 void clearWarLog();
 void makeAttackLog(char *out, size_t size,const char *attacker,const char *target,int damage);
 void appendWarLog(const char *line);
 
-void checkBattleStatus(int pHP, int eHP);
-void quickAttack(int pHP, int eHP);
-void normalAttack(int pHP, int eHP);
-void heavyAttack(int pHP, int eHP);
+void checkBattleStatus(int pHP, int eHP, int enemyIdx);
+void quickAttack(int pHP, int eHP, int enemyIdx);
+void normalAttack(int pHP, int eHP, int enemyIdx);
+void heavyAttack(int pHP, int eHP, int enemyIdx);

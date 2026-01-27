@@ -44,6 +44,7 @@ int main()
 		kheshig.gold=0;
 		kheshig.level=0;
 		kheshig.health=100;
+		kheshig.xp=0;
 		gameSave();
 	}
 	FirstIntroductionMenu();
