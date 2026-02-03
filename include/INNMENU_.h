@@ -3,8 +3,9 @@
 #include <conio.h>
 #include <windows.h>
 #include <time.h>
+#include <string.h>
 
-struct Player{
+typedef struct Player{
     int health;
     int activeHealth;
     int gold;
@@ -12,13 +13,11 @@ struct Player{
 	int attack;
 	int defense;
     int xp;
-};
+}Player;
 extern struct Player kheshig;
 
 extern void FirstIntroductionMenu();
 extern void gameSave();
 extern void playerStats(char menuName[]);
 
-void blacksmithMenu();
-void cursorControlBlackSmith();
-void printBlackSmithList();
+void innMenu();

@@ -6,6 +6,7 @@
 
 struct Player{
     int health;
+    int activeHealth;
     int gold;
     int level;
 	int attack;
@@ -14,14 +15,10 @@ struct Player{
 };
 extern struct Player kheshig;
 
-extern int row;
-extern int column;
 extern void FirstIntroductionMenu();
 extern void gameSave();
-
-
-void healthPotion();
+extern void playerStats(char menuName[]);
 
 void marketMenu();
 void cursorControlMarket();
-void PrintBoardMarket();
+void printMarketList();

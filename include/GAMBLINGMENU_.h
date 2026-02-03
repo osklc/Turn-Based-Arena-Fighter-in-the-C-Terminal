@@ -6,6 +6,7 @@
 
 struct Player{
     int health;
+    int activeHealth;
     int gold;
     int level;
 	int attack;

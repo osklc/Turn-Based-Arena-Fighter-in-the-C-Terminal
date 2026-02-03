@@ -6,7 +6,11 @@
 
 #include "../include/MARKETMENU_.h"
 
-char boardMarket[4][40] = {"Buy Health Potion(HEALTH+10) - 50G","Buy Damage Scroll(ATK+3) - 120G","Buy ARMOR (DEF+3) - 120G","Sell Items"};
+char boardMarket[4][40] = {"Buy Health Potion(HEALTH+50) - 20G","Buy Damage Scroll(ATK+3) - 120G","Buy ARMOR (DEF+3) - 120G","Sell Items"};
+
+char viewLineMarket[] = "========================================================";
+
+int listRow = 0;
 
 void marketMenu()
 {
@@ -16,63 +20,57 @@ void marketMenu()
 void cursorControlMarket()
 {
 	char selectedDirection = '\0';
-	char viewLine[] = "=============================================================================================================";
 	
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		printf("%s\n", viewLine);
-		printf("\033[96m\033[3m                                                 MARKET MENU\033[0m");
-		printf("\n%s\n", viewLine);
-		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
-		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
-		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
-		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
-		printf("\033[33mDefense:\033[0m %d",kheshig.defense);
-		printf("\n%s\n", viewLine);
-		PrintBoardMarket();
-		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
-		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu\n");
-		printf("\n%s\n", viewLine);
+		playerStats("MARKET MENU");
+		printMarketList();
+		printf("[W-S] Move  |  [F] Select  |  [Q] Back to main menu");
+		printf("\n%s\n", viewLineMarket);
 		selectedDirection = getch();
 		
-        if(selectedDirection == 'A' || selectedDirection == 'a' || selectedDirection == 75)
+        if(selectedDirection == 'W' || selectedDirection == 'w' || selectedDirection == 72)
         {
-            column--;
-            if(column < 0) column = 3;
+            listRow--;
+            if(listRow < 0) listRow = 3;
         }
-        else if(selectedDirection == 'D' || selectedDirection == 'd' || selectedDirection == 77)
+        else if(selectedDirection == 'S' || selectedDirection == 's' || selectedDirection == 80)
         {
-            column++;
-            if(column > 3) column = 0;
+            listRow++;
+            if(listRow > 3) listRow = 0;
         }
         else if(selectedDirection == 'F' || selectedDirection == 'f')
         {
-        	if(column==0)
+        	if(listRow==0)
         	{
-				if(kheshig.gold<50)
+				if(kheshig.gold<20)
 				{
 					printf("\033[31mYou don't have enough gold!\033[0m");
-					printf("\n%s\n", viewLine);
+					printf("\n%s\n", viewLineMarket);
 					printf("Press any key to return to the main menu.");
-					printf("\n%s\n", viewLine);
+					printf("\n%s\n", viewLineMarket);
 					getch();
 					FirstIntroductionMenu();
 				}
-				kheshig.gold-=50;
-				kheshig.health+=10;
+				kheshig.gold-=20;
+				kheshig.activeHealth+=50;
+				if(kheshig.activeHealth>kheshig.health)
+				{
+					kheshig.activeHealth=kheshig.health;
+				}
 				gameSave();
 				system("cls");
 				cursorControlMarket();
 			}
-			else if(column==1)
+			else if(listRow==1)
 			{
 				if(kheshig.gold<120)
 				{
 					printf("\033[31mYou don't have enough gold!\033[0m");
-					printf("\n%s\n", viewLine);
+					printf("\n%s\n", viewLineMarket);
 					printf("Press any key to return to the main menu.");
-					printf("\n%s\n", viewLine);
+					printf("\n%s\n", viewLineMarket);
 					getch();
 					FirstIntroductionMenu();
 				}
@@ -82,14 +80,14 @@ void cursorControlMarket()
 				system("cls");
 				cursorControlMarket();
 			}
-			else if(column==2)
+			else if(listRow==2)
 			{
 				if(kheshig.gold<120)
 				{
 					printf("\033[31mYou don't have enough gold!\033[0m");
-					printf("\n%s\n", viewLine);
+					printf("\n%s\n", viewLineMarket);
 					printf("Press any key to return to the main menu.");
-					printf("\n%s\n", viewLine);
+					printf("\n%s\n", viewLineMarket);
 					getch();
 					FirstIntroductionMenu();
 				}
@@ -99,15 +97,15 @@ void cursorControlMarket()
 				system("cls");
 				cursorControlMarket();
 			}
-			else if(column==3)
+			else if(listRow==3)
 			{
 				printf("In process");
-				getch();
+				marketMenu();
 			}
 		}
 		else if(selectedDirection == 'Q' || selectedDirection == 'q')
         {
-			column=0;
+			listRow=0;
         	FirstIntroductionMenu();
 		}
 		else
@@ -119,52 +117,18 @@ void cursorControlMarket()
 	}
 }
 
-void PrintBoardMarket()
+void printMarketList()
 {
-	int i,j,m,n;
-	int columnSize = 4;
-	
-	for(i=0;i<1;i++)
+	for(int i=0;i<4;i++)
 	{
-		for(m=0;m<columnSize;m++)
+		if(listRow==i)
 		{
-			printf(" ");
-			for(n=0;n<strlen(boardMarket[m])+6;n++)
-			{
-				printf("\033[4m ");
-			}
+			printf("\033[32m%d.%s\033[0m\n",i+1,boardMarket[i]);
 		}
-		printf("\033[0m\n");
-		for(m=0;m<columnSize;m++)
+		else
 		{
-			printf("|");
-			for(n=0;n<strlen(boardMarket[m])+6;n++)
-			{
-				printf(" ");
-			}
+			printf("%d.%s\n",i+1,boardMarket[i]);
 		}
-		printf("|\n");
-		for(j=0;j<columnSize;j++)
-		{
-			printf("|");
-			if(i==row && j== column)
-			{
-				printf("  \033[92m[%s]\033[0m  ",boardMarket[j]);
-			}
-			else
-			{
-				printf("   %s   ",boardMarket[j]);
-			}
-		}
-		printf("|\n");
-		for(m=0;m<columnSize;m++)
-		{
-			printf("|");
-			for(n=0;n<strlen(boardMarket[m])+6;n++)
-			{
-				printf("\033[4m ");
-			}
-		}
-		printf("\033[0m|\n");
 	}
+	printf("%s\n", viewLineMarket);
 }

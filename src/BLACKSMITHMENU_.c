@@ -6,67 +6,104 @@
 
 #include "../include/BLACKSMITHMENU_.h"
 
-char boardBlacksmith[3][40] = {"Upgrade Sword (+5 DMG) - 200G","Repair Armor - 100G","Forge New Weapon"};
+char boardBlackSmith[4][40] = {"Sword Upgrade(ATK+(3-1)) - 90G","Armor Upgrade (DEF+(3-1)) - 90G"};
+
+char viewLineBlackSmith[] = "========================================================";
+
+int listRowBlackSmith = 0;
 
 void blacksmithMenu()
 {
-	cursorControlBlacksmith();
+	cursorControlBlackSmith();
 }
 
-void cursorControlBlacksmith()
+void cursorControlBlackSmith()
 {
 	char selectedDirection = '\0';
-	char viewLine[] = "======================================================================================";
 	
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		printf("%s\n", viewLine);
-		printf("\033[33m\033[3m                                   BLACKSMITH MENU\033[0m");
-		printf("\n%s\n", viewLine);
-		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
-		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
-		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
-		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
-		printf("\033[33mDefense:\033[0m %d",kheshig.defense);
-		printf("\n%s\n", viewLine);
-		PrintBoardBlacksmith();
-		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
-		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu\n");
-		printf("\n%s\n", viewLine);
+		playerStats("MARKET MENU");
+		printBlackSmithList();
+		printf("[W-S] Move  |  [F] Select  |  [Q] Back to main menu");
+		printf("\n%s\n", viewLineBlackSmith);
 		selectedDirection = getch();
 		
-        if(selectedDirection == 'A' || selectedDirection == 'a' || selectedDirection == 75)
+        if(selectedDirection == 'W' || selectedDirection == 'w' || selectedDirection == 72)
         {
-            column--;
-            if(column < 0) column = 2;
+            listRowBlackSmith--;
+            if(listRowBlackSmith < 0) listRowBlackSmith = 1;
         }
-        else if(selectedDirection == 'D' || selectedDirection == 'd' || selectedDirection == 77)
+        else if(selectedDirection == 'S' || selectedDirection == 's' || selectedDirection == 80)
         {
-            column++;
-            if(column > 2) column = 0;
+            listRowBlackSmith++;
+            if(listRowBlackSmith > 1) listRowBlackSmith = 0;
         }
         else if(selectedDirection == 'F' || selectedDirection == 'f')
         {
-        	if(column==0)
+        	if(listRowBlackSmith==0)
         	{
-        		system("cls");
-				getch();
-			}
-			else if(column==1)
-			{
+				if(kheshig.gold<90)
+				{
+					printf("\033[31mYou don't have enough gold!\033[0m");
+					printf("\n%s\n", viewLineBlackSmith);
+					printf("Press any key to return to the main menu.");
+					printf("\n%s\n", viewLineBlackSmith);
+					getch();
+					FirstIntroductionMenu();
+				}
+				kheshig.gold-=90;
+				int chance = rand() % 100;
+				if(chance<20)
+				{
+					kheshig.attack += 1;
+				}
+				else if(chance<80)
+				{
+					kheshig.attack +=2;
+				}
+				else if(chance<100)
+				{
+					kheshig.attack +=3;
+				}
+				gameSave();
 				system("cls");
-				getch();
+				cursorControlBlackSmith();
 			}
-			else if(column==2)
+			else if(listRowBlackSmith==1)
 			{
+				if(kheshig.gold<90)
+				{
+					printf("\033[31mYou don't have enough gold!\033[0m");
+					printf("\n%s\n", viewLineBlackSmith);
+					printf("Press any key to return to the main menu.");
+					printf("\n%s\n", viewLineBlackSmith);
+					getch();
+					FirstIntroductionMenu();
+				}
+				kheshig.gold-=90;
+				int chanceDef = rand() % 100;
+				if(chanceDef<20)
+				{
+					kheshig.attack += 1;
+				}
+				else if(chanceDef<80)
+				{
+					kheshig.attack +=2;
+				}
+				else if(chanceDef<100)
+				{
+					kheshig.attack +=3;
+				}
+				gameSave();
 				system("cls");
-				getch();
+				cursorControlBlackSmith();
 			}
 		}
 		else if(selectedDirection == 'Q' || selectedDirection == 'q')
         {
-			column=0;
+			listRowBlackSmith=0;
         	FirstIntroductionMenu();
 		}
 		else
@@ -78,51 +115,18 @@ void cursorControlBlacksmith()
 	}
 }
 
-void PrintBoardBlacksmith()
+void printBlackSmithList()
 {
-	int i,j,m,n;
-	
-	for(i=0;i<1;i++)
+	for(int i=0;i<2;i++)
 	{
-		for(m=0;m<3;m++)
+		if(listRowBlackSmith==i)
 		{
-			printf(" ");
-			for(n=0;n<strlen(boardBlacksmith[m])+6;n++)
-			{
-				printf("\033[4m ");
-			}
+			printf("\033[32m%d.%s\033[0m\n",i+1,boardBlackSmith[i]);
 		}
-		printf("\033[0m\n");
-		for(m=0;m<3;m++)
+		else
 		{
-			printf("|");
-			for(n=0;n<strlen(boardBlacksmith[m])+6;n++)
-			{
-				printf(" ");
-			}
+			printf("%d.%s\n",i+1,boardBlackSmith[i]);
 		}
-		printf("|\n");
-		for(j=0;j<3;j++)
-		{
-			printf("|");
-			if(i==row && j== column)
-			{
-				printf("  \033[92m[%s]\033[0m  ",boardBlacksmith[j]);
-			}
-			else
-			{
-				printf("   %s   ",boardBlacksmith[j]);
-			}
-		}
-		printf("|\n");
-		for(m=0;m<3;m++)
-		{
-			printf("|");
-			for(n=0;n<strlen(boardBlacksmith[m])+6;n++)
-			{
-				printf("\033[4m ");
-			}
-		}
-		printf("\033[0m|\n");
 	}
+	printf("%s\n", viewLineBlackSmith);
 }

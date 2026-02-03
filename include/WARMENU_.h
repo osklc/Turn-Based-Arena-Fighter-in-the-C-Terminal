@@ -7,6 +7,7 @@
 
 typedef struct Player{
     int health;
+    int activeHealth;
     int gold;
     int level;
 	int attack;
@@ -32,6 +33,7 @@ extern int column;
 extern void FirstIntroductionMenu();
 extern void gameSave();
 extern void xpLevelCalc();
+extern void playerStats(char menuName[]);
 
 void warMenu();
 void warPanel(int currentHP, int currentEnemyHP, int enemyIdx);
@@ -40,10 +42,14 @@ void PrintBoardWar();
 void escapeWar(int enemyIdx);
 
 void clearWarLog();
-void makeAttackLog(char *out, size_t size,const char *attacker,const char *target,int damage);
+void makeAttackLogEnemy(char *out, size_t size,const char *attacker,const char *target,int damage);
+void makeAttackLogPlayer(char *out, size_t size,const char *attacker,const char *target,int damage);
+void makeDefendLog(char *out, size_t size, const char *defender, int totalDamage, int reducedDamage);
+void makeCounterStrikeLog(char *out, size_t size, const char *defender, char *attacker, int counterDamage);
 void appendWarLog(const char *line);
 
-void checkBattleStatus(int pHP, int eHP, int enemyIdx);
+void checkBattleStatus(int pHP, int eHP, int enemyIdx, int triggerEnemyAttack);
 void quickAttack(int pHP, int eHP, int enemyIdx);
 void normalAttack(int pHP, int eHP, int enemyIdx);
 void heavyAttack(int pHP, int eHP, int enemyIdx);
+void defense(int pHP, int eHP, int enemyIdx);

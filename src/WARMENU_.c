@@ -112,14 +112,23 @@ void appendWarLog(const char *line) {
 
 void makeAttackLogEnemy(char *out, size_t size,const char *attacker,const char *target,int damage)
 {
-    snprintf(out, size,"  %s attacks %s for \033[31m%d\033[0m damage\n",attacker, target, damage);
+    snprintf(out, size,"%s attacks %s for \033[31m%d\033[0m damage\n",attacker, target, damage);
 }
 
 void makeAttackLogPlayer(char *out, size_t size,const char *attacker,const char *target,int damage)
 {
-    snprintf(out, size,"  %s attacks %s for \033[32m%d\033[0m damage\n",attacker, target, damage);
+    snprintf(out, size,"%s attacks %s for \033[32m%d\033[0m damage\n",attacker, target, damage);
 }
 
+void makeDefendLog(char *out, size_t size, const char *defender, int totalDamage, int reducedDamage)
+{
+    snprintf(out, size, "%s defends! (\033[31m%d\033[0m -> \033[33m%d\033[0m damage)\n", defender, totalDamage, reducedDamage);
+}
+
+void makeCounterStrikeLog(char *out, size_t size, const char *defender, char *attacker, int counterDamage)
+{
+	snprintf(out, size, "\033[33m%s\033[0m counters! Strikes %s for \033[31m%d\033[0m damage\n", defender, attacker, counterDamage);
+}
 
 void warPanel(int currentHP, int currentEnemyHP, int enemyIdx)
 {
@@ -228,7 +237,7 @@ void warPanel(int currentHP, int currentEnemyHP, int enemyIdx)
 		if(choice == '1') quickAttack(currentHP, currentEnemyHP, enemyIdx);
 		else if(choice == '2') normalAttack(currentHP, currentEnemyHP, enemyIdx);
 		else if(choice == '3') heavyAttack(currentHP, currentEnemyHP, enemyIdx);
-		else if(choice == '4') { /* in process */ }
+		else if(choice == '4') defense(currentHP, currentEnemyHP, enemyIdx); 
 		else if(choice == '5') { escapeWar(enemyIdx); }
 	} while(choice < '1' || choice > '5');
 }
@@ -261,7 +270,7 @@ void escapeWar(int enemyIdx)
 		FirstIntroductionMenu();
 }
 
-void checkBattleStatus(int pHP, int eHP, int enemyIdx)
+void checkBattleStatus(int pHP, int eHP, int enemyIdx, int triggerEnemyAttack)
 {
 	char viewLineBattle[] = "===========================================================";
 	if(eHP <= 0)
@@ -282,6 +291,7 @@ void checkBattleStatus(int pHP, int eHP, int enemyIdx)
         
 		kheshig.gold += enemyPool[enemyIdx].goldReward;
 		kheshig.xp += enemyPool[enemyIdx].xpReward;
+		kheshig.activeHealth = pHP;
 		xpLevelCalc();
 		gameSave();
 
@@ -295,7 +305,29 @@ void checkBattleStatus(int pHP, int eHP, int enemyIdx)
 	else if(pHP <= 0)
 	{
 		system("cls");
-		int loss = (kheshig.gold * 25) / 100;
+		int loss;
+		if(enemyPool[enemyIdx].goldReward<100)
+		{
+			loss = (kheshig.gold * 10) / 100;
+		}
+		else if(enemyPool[enemyIdx].goldReward<1000)
+		{
+			loss = (kheshig.gold * 25) / 100;
+		}
+		else
+		{
+			loss = (kheshig.gold * 30) / 100;
+		}
+
+		if(loss<10)
+		{
+			loss = 10;
+		}
+		if(loss>1000)
+		{
+			loss = 1000;
+		}
+
         printf("%s\n", viewLineBattle);
 		printf("                \033[31m\033[1mXXX KHESHIG HAS FALLEN XXX\033[0m\n");
         printf("%s\n", viewLineBattle);
@@ -312,9 +344,16 @@ void checkBattleStatus(int pHP, int eHP, int enemyIdx)
         printf("    %s\n",defeatTexts[idx]);
         
         printf("\n    \033[31m[PENALTIES]\033[0m\n");
-		printf("    - %d Gold Coins (Scavengers took their share)\n", loss);
-        
-		kheshig.gold -= loss;
+		if(kheshig.gold<=0)
+		{
+			printf("Your body yielded no gold only the cold truth of a warrior with nothing left to lose.\n");
+		}
+		else
+		{
+			printf("    - %d Gold Coins (Scavengers took their share)\n", loss);
+			kheshig.gold -= loss;
+		}
+		kheshig.activeHealth = pHP;
 		gameSave();
 
 		printf("\n%s\n", viewLineBattle);
@@ -326,23 +365,58 @@ void checkBattleStatus(int pHP, int eHP, int enemyIdx)
 	}
 	else
 	{
-		int chanceFactor = 10 + rand() % 10;
-        int enemyDmg = (chanceFactor*(enemyPool[enemyIdx].attack - kheshig.defense))/10;
-        if(enemyDmg < 1) enemyDmg = 1;
-        
-		char line[128];
-		makeAttackLogEnemy(line, sizeof(line), enemyPool[enemyIdx].name, "Kheshig", enemyDmg);
-		appendWarLog(line);
-		int nextPlayerHP = pHP - enemyDmg;
-
-		if(nextPlayerHP <= 0)
+		if(triggerEnemyAttack == 1)
 		{
-			checkBattleStatus(0,eHP,enemyIdx);
+			int chanceFactor = 10 + rand() % 10;
+			int enemyDmg = (chanceFactor*(enemyPool[enemyIdx].attack - kheshig.defense))/10;
+			if(enemyDmg < 1) enemyDmg = 1;
+			
+			char line[128];
+			makeAttackLogEnemy(line, sizeof(line), enemyPool[enemyIdx].name, "Kheshig", enemyDmg);
+			appendWarLog(line);
+			int nextPlayerHP = pHP - enemyDmg;
+
+			if(nextPlayerHP <= 0)
+			{
+				checkBattleStatus(0,eHP,enemyIdx, 1);
+			}
+			else
+			{
+				warPanel(nextPlayerHP, eHP, enemyIdx);
+			}
 		}
 		else
 		{
-			warPanel(nextPlayerHP, eHP, enemyIdx);
+			warPanel(pHP,eHP,enemyIdx);
 		}
+		
+	}
+}
+
+void defense(int pHP, int eHP, int enemyIdx)
+{
+	int chance = rand() % 100;
+	int def = enemyPool[enemyIdx].attack - kheshig.defense;
+	if(chance<50)
+	{
+		if(def<0)
+		{
+			appendWarLog("Enemy missed their Attack!\n");
+		}
+		else
+		{
+			char line[128];
+			makeDefendLog(line, sizeof(line), "Kheshig", enemyPool[enemyIdx].attack, def);
+			appendWarLog(line);
+			checkBattleStatus(pHP-def, eHP, enemyIdx, 0);
+		}
+	}
+	else
+	{
+		char counterLine[128];
+		makeCounterStrikeLog(counterLine, sizeof(counterLine), "Kheshig", enemyPool[enemyIdx].name, def);
+		appendWarLog(counterLine);
+		checkBattleStatus(pHP, eHP-def, enemyIdx, 0);
 	}
 }
 
@@ -356,12 +430,12 @@ void quickAttack(int pHP, int eHP, int enemyIdx)
 		char line[128];
 		makeAttackLogPlayer(line, sizeof(line), "Kheshig", enemyPool[enemyIdx].name, dmg);
 		appendWarLog(line);
-		checkBattleStatus(pHP, eHP - dmg, enemyIdx);
+		checkBattleStatus(pHP, eHP - dmg, enemyIdx, 1);
 	}
 	else
 	{
-		appendWarLog("  Kheshig missed their Quick Attack!\n");
-		checkBattleStatus(pHP, eHP, enemyIdx);
+		appendWarLog("Kheshig missed their Quick Attack!\n");
+		checkBattleStatus(pHP, eHP, enemyIdx, 1);
 	}
 }
 
@@ -375,12 +449,12 @@ void normalAttack(int pHP, int eHP, int enemyIdx)
 		char line[128];
 		makeAttackLogPlayer(line, sizeof(line), "Kheshig", enemyPool[enemyIdx].name, dmg);
 		appendWarLog(line);
-		checkBattleStatus(pHP, eHP - dmg, enemyIdx);
+		checkBattleStatus(pHP, eHP - dmg, enemyIdx, 1);
 	}
 	else
 	{
-		appendWarLog("  Kheshig missed their Normal Attack!\n");
-		checkBattleStatus(pHP, eHP, enemyIdx);
+		appendWarLog("Kheshig missed their Normal Attack!\n");
+		checkBattleStatus(pHP, eHP, enemyIdx, 1);
 	}
 }
 
@@ -394,12 +468,12 @@ void heavyAttack(int pHP, int eHP, int enemyIdx)
 		char line[128];
 		makeAttackLogPlayer(line, sizeof(line), "Kheshig", enemyPool[enemyIdx].name, dmg);
 		appendWarLog(line);
-		checkBattleStatus(pHP, eHP - dmg, enemyIdx);
+		checkBattleStatus(pHP, eHP - dmg, enemyIdx, 1);
 	}
 	else
 	{
-		appendWarLog("  Kheshig missed their Heavy Attack!\n");
-		checkBattleStatus(pHP, eHP, enemyIdx);
+		appendWarLog("Kheshig missed their Heavy Attack!\n");
+		checkBattleStatus(pHP, eHP, enemyIdx, 1);
 	}
 }
 
@@ -429,15 +503,7 @@ void cursorControlWar()
 	while(selectedDirection != 'F' && selectedDirection != 'f' && selectedDirection != 'Q' && selectedDirection != 'q')
 	{
 		system("cls");
-		printf("%s\n", viewLine);
-		printf("\033[35m\033[3m                       WAR MENU\033[0m");
-		printf("\n%s\n", viewLine);
-		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
-		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
-		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
-		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
-		printf("\033[33mDefense:\033[0m %d",kheshig.defense);
-		printf("\n%s\n", viewLine);
+		playerStats("WAR MENU");
 		PrintBoardWar();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu\n");
@@ -461,15 +527,16 @@ void cursorControlWar()
 				clearWarLog();
 				int selectedEnemyIdx = getRandomEnemyIndex(kheshig.level);
 				char startMsg[150];
-    			sprintf(startMsg, "  A wild %s appeared in the %s!\n    Battle started in %s!\n",enemyPool[selectedEnemyIdx].name, enemyPool[selectedEnemyIdx].place,enemyPool[selectedEnemyIdx].place);
+    			sprintf(startMsg, "A wild %s appeared in the %s!\n  Battle started in %s!\n",enemyPool[selectedEnemyIdx].name, enemyPool[selectedEnemyIdx].place,enemyPool[selectedEnemyIdx].place);
 				appendWarLog(startMsg);
-				warPanel(kheshig.health, enemyPool[selectedEnemyIdx].health, selectedEnemyIdx);
+				warPanel(kheshig.activeHealth, enemyPool[selectedEnemyIdx].health, selectedEnemyIdx);
 			}
 			else if(column==1)
 			{
 				system("cls");
 				printf("Training mode coming soon...");
 				getch();
+				FirstIntroductionMenu();
 			}
 		}
 		else if(selectedDirection == 'Q' || selectedDirection == 'q')

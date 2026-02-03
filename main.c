@@ -9,12 +9,13 @@
 #include "include/MARKETMENU_.h"
 #include "include/GAMBLINGMENU_.h"
 #include "include/BLACKSMITHMENU_.h"
+#include "include/INNMENU_.h"
 
 int row=0;
 int column=0;
-char boardMain[4][20] = {"War","Market","Blacksmith","Gambling"};
+char boardMain[5][20] = {"War","Market","Blacksmith","Gambling", "The Inn"};
 
-char viewLine[] = "========================================================";
+char viewLine[] = "=======================================================================";
 
 struct Player kheshig;
 
@@ -45,6 +46,7 @@ int main()
 		kheshig.gold=0;
 		kheshig.level=0;
 		kheshig.health=100;
+		kheshig.activeHealth=100;
 		kheshig.xp=0;
 		gameSave();
 	}
@@ -228,6 +230,40 @@ void FirstIntroductionMenu()
 	cursorControl();
 }
 
+void playerStats(char menuName[])
+{
+	printf("%s\n", viewLine);
+	printf("\033[94m\033[3m                       %s\033[0m", menuName);
+	printf("\n%s\n", viewLine);
+	printf("\033[91mHP:\033[0m %d/%d ",kheshig.activeHealth ,kheshig.health);
+	
+	printf("[");
+	int t = 0;
+	float hpRatio = (float)kheshig.activeHealth / kheshig.health;
+	if (hpRatio < 0) hpRatio = 0;
+	int kheshigHealthBar = (int)(10 * hpRatio);
+	while(t<10)
+	{
+		for(int a=0;a<kheshigHealthBar;a++)
+		{
+			t++;
+			printf("|");
+		}
+		while(t<10)
+		{
+			t++;
+			printf(".");
+		}
+	}
+	printf("]\n");
+	printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
+	printf("\033[37m\033[1mCurrent Xp:\033[0m %d\n",kheshig.xp);
+	printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
+	printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
+	printf("\033[33mDefense:\033[0m %d",kheshig.defense);
+	printf("\n%s\n",viewLine);
+}
+
 void cursorControl()
 {
 	char selectedDirection = '\0';
@@ -235,15 +271,7 @@ void cursorControl()
 	while(selectedDirection != 'F' && selectedDirection != 'f')
 	{
 		system("cls");
-		printf("%s\n", viewLine);
-		printf("\033[94m\033[3m                       MAIN MENU\033[0m");
-		printf("\n%s\n", viewLine);
-		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
-		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
-		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
-		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
-		printf("\033[33mDefense:\033[0m %d",kheshig.defense);
-		printf("\n%s\n",viewLine);
+		playerStats("MAIN MENU");
 		PrintBoard();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Quit\n");
@@ -253,12 +281,12 @@ void cursorControl()
         if(selectedDirection == 'A' || selectedDirection == 'a' || selectedDirection == 75)
         {
             column--;
-            if(column < 0) column = 3;
+            if(column < 0) column = 4;
         }
         else if(selectedDirection == 'D' || selectedDirection == 'd' || selectedDirection == 77)
         {
             column++;
-            if(column > 3) column = 0;
+            if(column > 4) column = 0;
         }
         else if(selectedDirection == 'F' || selectedDirection == 'f')
         {
@@ -286,6 +314,12 @@ void cursorControl()
 				system("cls");
 				gamblingMenu();
 			}
+			else if(column==4)
+			{
+				column=0;
+				system("cls");
+				innMenu();
+			}
 		}
 		else if(selectedDirection == 'Q' || selectedDirection == 'q')
         {
@@ -305,7 +339,7 @@ void cursorControl()
 void PrintBoard()
 {
 	int i,j,m,n;
-	int columnSize = 4;
+	int columnSize = 5;
 	
 	for(i=0;i<1;i++)
 	{
