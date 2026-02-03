@@ -14,6 +14,8 @@ char boardWar[4][20] = {"Start War","War Training"};
 int columnSize = 2;
 char places[3][20] = {"Northern Forests", "Hell", "Glacial Mountains"};
 
+char viewLineWar[] = "====================================================";
+
 char warLogs[MAX_VISIBLE_LOGS][WAR_LINE_SIZE];
 int currentLogCount = 0;
 
@@ -133,20 +135,19 @@ void makeCounterStrikeLog(char *out, size_t size, const char *defender, char *at
 void warPanel(int currentHP, int currentEnemyHP, int enemyIdx)
 {
 	system("cls");
-	char viewLine[] = "========================================================";
 	char viewHeader[150];
 	snprintf(viewHeader, sizeof(viewHeader), "  \033[31mBLOODTHIRSTY KHESHIG\033[0m - \033[32m%s\033[0m", enemyPool[enemyIdx].place);
 
 	int visibleLen = strlen("     BLOODTHIRSTY KHESHIG - ") + strlen(enemyPool[enemyIdx].place);
-    int viewDiff = (int)strlen(viewLine) - visibleLen;
+    int viewDiff = (int)strlen(viewLineWar) - visibleLen;
 
-	printf("%s\n",viewLine);
+	printf("%s\n",viewLineWar);
 	for(int i=0;i<viewDiff/2;i++)
 	{
 		printf(" ");
 	}
 	printf("%s", viewHeader);
-	printf("\n%s\n", viewLine);
+	printf("\n%s\n", viewLineWar);
 	
 	char choicedEnemiesName[30];
 	strcpy(choicedEnemiesName, enemyPool[enemyIdx].name);
@@ -215,7 +216,7 @@ void warPanel(int currentHP, int currentEnemyHP, int enemyIdx)
 	}
 	printf("]");
 
-	printf("\n%s\n", viewLine);
+	printf("\n%s\n", viewLineWar);
 	printf("                   --- BATTLE LOG ---\n");
 	for(int i=0;i<currentLogCount;i++)
 	{
@@ -225,11 +226,11 @@ void warPanel(int currentHP, int currentEnemyHP, int enemyIdx)
 	{
 		printf("\n");
 	}
-	printf("%s\n", viewLine);
+	printf("%s\n", viewLineWar);
 
 	printf("  1. Quick Attack  | 2. Normal Attack | 3. Heavy Attack\n");
 	printf("  4. Defense       | 5. Escape - Lose Gold\n");
-	printf("%s\n", viewLine);
+	printf("%s\n", viewLineWar);
 
 	char choice;
 	do {
@@ -498,16 +499,15 @@ int getRandomEnemyIndex(int playerLevel)
 void cursorControlWar()
 {
 	char selectedDirection = '\0';
-	char viewLine[] = "========================================================";
 	
 	while(selectedDirection != 'F' && selectedDirection != 'f' && selectedDirection != 'Q' && selectedDirection != 'q')
 	{
 		system("cls");
-		playerStats("WAR MENU");
+		playerStats("WAR MENU", 8, sizeof(viewLineWar), viewLineWar);
 		PrintBoardWar();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu\n");
-		printf("\n%s\n", viewLine);
+		printf("\n%s\n", viewLineWar);
 		selectedDirection = getch();
 		
         if(selectedDirection == 'A' || selectedDirection == 'a' || selectedDirection == 75)

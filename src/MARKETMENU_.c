@@ -24,8 +24,8 @@ void cursorControlMarket()
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		playerStats("MARKET MENU");
-		printMarketList();
+		playerStats("MARKET MENU", 11, sizeof(viewLineMarket), viewLineMarket);
+		printMarketList();	
 		printf("[W-S] Move  |  [F] Select  |  [Q] Back to main menu");
 		printf("\n%s\n", viewLineMarket);
 		selectedDirection = getch();

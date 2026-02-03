@@ -21,15 +21,7 @@ void cursorControlGambling()
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		printf("%s\n", viewLine);
-		printf("\033[92m\033[3m                                GAMBLING MENU\033[0m");
-		printf("\n%s\n", viewLine);
-		printf("\033[91mHealth:\033[0m %d\n",kheshig.health);
-		printf("\033[36m\033[1mLevel:\033[0m %d\n",kheshig.level);
-		printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
-		printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
-		printf("\033[33mDefense:\033[0m %d",kheshig.defense);
-		printf("\n%s\n", viewLine);
+		playerStats("GAMBLING MENU", 13, sizeof(viewLine), viewLine);
 		PrintBoardGambling();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu\n");

@@ -13,6 +13,9 @@ typedef struct Player{
 	int attack;
 	int defense;
     int xp;
+    int currentDay;
+    int loopCount;
+    int currentTimePeriod;
 }Player;
 extern struct Player kheshig;
 
@@ -33,7 +36,7 @@ extern int column;
 extern void FirstIntroductionMenu();
 extern void gameSave();
 extern void xpLevelCalc();
-extern void playerStats(char menuName[]);
+void playerStats(char menuName[], int menuNameSize, int viewLineSize, char *viewLineVariable);
 
 void warMenu();
 void warPanel(int currentHP, int currentEnemyHP, int enemyIdx);

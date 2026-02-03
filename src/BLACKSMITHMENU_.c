@@ -8,7 +8,7 @@
 
 char boardBlackSmith[4][40] = {"Sword Upgrade(ATK+(3-1)) - 90G","Armor Upgrade (DEF+(3-1)) - 90G"};
 
-char viewLineBlackSmith[] = "========================================================";
+char viewLineBlackSmith[] = "====================================================";
 
 int listRowBlackSmith = 0;
 
@@ -24,7 +24,7 @@ void cursorControlBlackSmith()
 	while((selectedDirection != 'F' && selectedDirection != 'f') && (selectedDirection != 'Q' && selectedDirection != 'q'))
 	{
 		system("cls");
-		playerStats("MARKET MENU");
+		playerStats("BLACKSMITH MENU", 15, sizeof(viewLineBlackSmith), viewLineBlackSmith);
 		printBlackSmithList();
 		printf("[W-S] Move  |  [F] Select  |  [Q] Back to main menu");
 		printf("\n%s\n", viewLineBlackSmith);

@@ -12,12 +12,15 @@ struct Player{
 	int attack;
 	int defense;
     int xp;
+    int currentDay;
+    int loopCount;
+    int currentTimePeriod;
 };
 extern struct Player kheshig;
 
 extern void FirstIntroductionMenu();
 extern void gameSave();
-extern void playerStats(char menuName[]);
+void playerStats(char menuName[], int menuNameSize, int viewLineSize, char *viewLineVariable);
 
 void marketMenu();
 void cursorControlMarket();

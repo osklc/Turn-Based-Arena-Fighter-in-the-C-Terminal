@@ -48,6 +48,9 @@ int main()
 		kheshig.health=100;
 		kheshig.activeHealth=100;
 		kheshig.xp=0;
+		kheshig.currentDay=0;
+    	kheshig.loopCount=0;
+		kheshig.currentTimePeriod=0;
 		gameSave();
 	}
 	FirstIntroductionMenu();
@@ -230,11 +233,55 @@ void FirstIntroductionMenu()
 	cursorControl();
 }
 
-void playerStats(char menuName[])
+void advanceTimePeriod(int time)
 {
-	printf("%s\n", viewLine);
-	printf("\033[94m\033[3m                       %s\033[0m", menuName);
-	printf("\n%s\n", viewLine);
+	for(int i=0;i<time;i++)
+	{
+		kheshig.currentTimePeriod++;
+	}
+}
+
+void advanceTime()
+{
+	if(kheshig.currentTimePeriod == 3)
+	{
+		kheshig.currentDay++;
+		kheshig.currentTimePeriod = 0;
+	}
+}
+
+void playerStats(char menuName[], int menuNameSize, int viewLineSize, char *viewLineVariable)
+{
+	if(viewLineSize<51)
+	{
+		viewLineSize=51;
+		viewLineVariable = "==================================================="; 
+	}
+	int space = (viewLineSize-menuNameSize)/2;
+	printf("%s\n", viewLineVariable);
+	for(int i=0;i<space;i++)
+	{
+		printf(" ");
+	}
+	
+	// Menu adına göre farklı renk seç
+	char *menuColor = "\033[94m"; // Varsayılan mavi
+	if(strcmp(menuName, "MAIN MENU") == 0) {
+		menuColor = "\033[92m"; // Yeşil
+	} else if(strcmp(menuName, "WAR MENU") == 0) {
+		menuColor = "\033[91m"; // Kırmızı
+	} else if(strcmp(menuName, "MARKET MENU") == 0) {
+		menuColor = "\033[93m"; // Sarı
+	} else if(strcmp(menuName, "BLACKSMITH MENU") == 0) {
+		menuColor = "\033[95m"; // Mor
+	} else if(strcmp(menuName, "GAMBLING MENU") == 0) {
+		menuColor = "\033[96m"; // Cyan
+	} else if(strcmp(menuName, "THE INN") == 0) {
+		menuColor = "\033[97m"; // Beyaz
+	}
+	
+	printf("%s\033[3m%s\033[0m", menuColor, menuName);
+	printf("\n%s\n", viewLineVariable);
 	printf("\033[91mHP:\033[0m %d/%d ",kheshig.activeHealth ,kheshig.health);
 	
 	printf("[");
@@ -260,8 +307,21 @@ void playerStats(char menuName[])
 	printf("\033[37m\033[1mCurrent Xp:\033[0m %d\n",kheshig.xp);
 	printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
 	printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
-	printf("\033[33mDefense:\033[0m %d",kheshig.defense);
-	printf("\n%s\n",viewLine);
+	printf("\033[33mDefense:\033[0m %d\n",kheshig.defense);
+	printf("\033[33mDay:\033[0m %d",kheshig.currentDay+1);
+	if(kheshig.currentTimePeriod == 0)
+	{
+		printf(" Morning");
+	}
+	if(kheshig.currentTimePeriod == 1)
+	{
+		printf(" Noon");
+	}
+	if(kheshig.currentTimePeriod == 2)
+	{
+		printf(" Evening");
+	}
+	printf("\n%s\n", viewLineVariable);
 }
 
 void cursorControl()
@@ -271,7 +331,7 @@ void cursorControl()
 	while(selectedDirection != 'F' && selectedDirection != 'f')
 	{
 		system("cls");
-		playerStats("MAIN MENU");
+		playerStats("MAIN MENU", 9, sizeof(viewLine), viewLine);
 		PrintBoard();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Quit\n");
