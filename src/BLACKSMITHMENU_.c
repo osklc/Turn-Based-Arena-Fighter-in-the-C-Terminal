@@ -8,7 +8,7 @@
 
 char boardBlackSmith[4][40] = {"Sword Upgrade(ATK+(3-1)) - 90G","Armor Upgrade (DEF+(3-1)) - 90G"};
 
-char viewLineBlackSmith[] = "====================================================";
+char viewLineBlackSmith[] = "========================================================";
 
 int listRowBlackSmith = 0;
 

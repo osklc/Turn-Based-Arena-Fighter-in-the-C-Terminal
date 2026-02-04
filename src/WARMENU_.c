@@ -14,7 +14,7 @@ char boardWar[4][20] = {"Start War","War Training"};
 int columnSize = 2;
 char places[3][20] = {"Northern Forests", "Hell", "Glacial Mountains"};
 
-char viewLineWar[] = "====================================================";
+char viewLineWar[] = "========================================================";
 
 char warLogs[MAX_VISIBLE_LOGS][WAR_LINE_SIZE];
 int currentLogCount = 0;
@@ -506,7 +506,9 @@ void cursorControlWar()
 		playerStats("WAR MENU", 8, sizeof(viewLineWar), viewLineWar);
 		PrintBoardWar();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
+		printf("%s",viewLineWar);
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu\n");
+		printf("%s\n",viewLineWar);
 		selectedDirection = getch();
 		
         if(selectedDirection == 'A' || selectedDirection == 'a' || selectedDirection == 75)
@@ -557,7 +559,7 @@ void PrintBoardWar()
 	
 	for(i=0;i<1;i++)
 	{
-		for(m=0;m<columnSize;m++)
+		/*for(m=0;m<columnSize;m++)
 		{
 			printf(" ");
 			for(n=0;n<strlen(boardWar[m])+6;n++)
@@ -565,7 +567,7 @@ void PrintBoardWar()
 				printf("\033[4m ");
 			}
 		}
-		printf("\033[0m\n");
+		printf("\033[0m\n");*/
 		for(m=0;m<columnSize;m++)
 		{
 			printf("|");
@@ -593,7 +595,7 @@ void PrintBoardWar()
 			printf("|");
 			for(n=0;n<strlen(boardWar[m])+6;n++)
 			{
-				printf("\033[4m ");
+				printf(" ");
 			}
 		}
 		printf("\033[0m|\n");

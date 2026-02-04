@@ -25,7 +25,9 @@ void cursorControlInn()
 		system("cls");
 		playerStats("THE INN", 7, sizeof(viewLineInn), viewLineInn);
 		printInnList();
-		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu");
+		printf("%s",viewLineInn);
+		printf("\n[A-D] Move  |  [F] Select  |  [Q] Back to main menu\n");
+		printf("%s\n",viewLineInn);
 		selectedDirection = getch();
 		
         if(selectedDirection == 'A' || selectedDirection == 'a' || selectedDirection == 75)
@@ -84,7 +86,7 @@ void printInnList()
 	
 	for(i=0;i<1;i++)
 	{
-		for(m=0;m<itemSize;m++)
+		/*for(m=0;m<itemSize;m++)
 		{
 			printf(" ");
 			for(n=0;n<strlen(boardInn[m])+6;n++)
@@ -92,7 +94,7 @@ void printInnList()
 				printf("\033[4m ");
 			}
 		}
-		printf("\033[0m\n");
+		printf("\033[0m\n");*/
 		for(m=0;m<itemSize;m++)
 		{
 			printf("|");
@@ -107,7 +109,7 @@ void printInnList()
 			printf("|");
 			if(j== innColumn)
 			{
-				printf("  \033[96m[%s]\033[0m  ", boardInn[j]);
+				printf("  \033[92m[%s]\033[0m  ", boardInn[j]);
 			}
 			else
 			{
@@ -120,7 +122,7 @@ void printInnList()
 			printf("|");
 			for(n=0;n<strlen(boardInn[m])+6;n++)
 			{
-				printf("\033[4m ");
+				printf(" ");
 			}
 		}
 		printf("\033[0m|\n");
@@ -149,7 +151,7 @@ void playGambling()
 			printf("\033[31mNot enough gold!\033[0m\n");
 			printf("Press any key to continue...\n");
 			getch();
-			cursorControlInn();
+			playGambling();
 			return;
 		}
 		
@@ -163,13 +165,13 @@ void playGambling()
 		
 		if(result == 0)
 		{
-			printf("\033[92m✓ YOU WIN!\033[0m\n");
+			printf("\033[92mYOU WIN!\033[0m\n");
 			printf("Flipped Heads! You won 60 gold!\n");
 			kheshig.gold += 60;
 		}
 		else
 		{
-			printf("\033[91m✗ YOU LOSE!\033[0m\n");
+			printf("\033[91mYOU LOSE!\033[0m\n");
 			printf("Flipped Tails! Better luck next time.\n");
 		}
 		
@@ -178,7 +180,7 @@ void playGambling()
 		printf("Press any key to continue...\n");
 		getch();
 		gameSave();
-		cursorControlInn();
+		playGambling();
 	}
 	else if(choice == '2')
 	{
@@ -187,7 +189,7 @@ void playGambling()
 			printf("\033[31mNot enough gold!\033[0m\n");
 			printf("Press any key to continue...\n");
 			getch();
-			cursorControlInn();
+			playGambling();
 			return;
 		}
 		
@@ -202,13 +204,13 @@ void playGambling()
 		
 		if(dice >= 4)
 		{
-			printf("\033[92m✓ YOU WIN!\033[0m\n");
+			printf("\033[92mYOU WIN!\033[0m\n");
 			printf("You rolled %d! You won 100 gold!\n", dice);
 			kheshig.gold += 100;
 		}
 		else
 		{
-			printf("\033[91m✗ YOU LOSE!\033[0m\n");
+			printf("\033[91mYOU LOSE!\033[0m\n");
 			printf("You rolled %d. You needed 4 or higher.\n", dice);
 		}
 		
@@ -217,7 +219,7 @@ void playGambling()
 		printf("Press any key to continue...\n");
 		getch();
 		gameSave();
-		cursorControlInn();
+		playGambling();
 	}
 	else if(choice == '3')
 	{
@@ -226,7 +228,7 @@ void playGambling()
 			printf("\033[31mNot enough gold!\033[0m\n");
 			printf("Press any key to continue...\n");
 			getch();
-			cursorControlInn();
+			playGambling();
 			return;
 		}
 		
@@ -240,13 +242,13 @@ void playGambling()
 		
 		if(result < 30)
 		{
-			printf("\033[92m✓ JACKPOT!\033[0m\n");
+			printf("\033[92mJACKPOT!\033[0m\n");
 			printf("The gods favor the bold! You won 500 gold!\n");
 			kheshig.gold += 500;
 		}
 		else
 		{
-			printf("\033[91m✗ BUSTED!\033[0m\n");
+			printf("\033[91mBUSTED!\033[0m\n");
 			printf("Lady Luck was not with you today...\n");
 		}
 		
@@ -255,7 +257,7 @@ void playGambling()
 		printf("Press any key to continue...\n");
 		getch();
 		gameSave();
-		cursorControlInn();
+		playGambling();
 	}
 	else if(choice == 'Q' || choice == 'q')
 	{

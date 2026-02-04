@@ -263,17 +263,17 @@ void playerStats(char menuName[], int menuNameSize, int viewLineSize, char *view
 		printf(" ");
 	}
 	
-	char *menuColor = "\033[94m"; // mavi
+	char *menuColor = "\033[92m";
 	if(strcmp(menuName, "MAIN MENU") == 0) {
-		menuColor = "\033[92m"; // Yeşil
+		menuColor = "\033[94m";
 	} else if(strcmp(menuName, "WAR MENU") == 0) {
-		menuColor = "\033[91m"; // Kırmızı
+		menuColor = "\033[91m";
 	} else if(strcmp(menuName, "MARKET MENU") == 0) {
-		menuColor = "\033[93m"; // Sarı
+		menuColor = "\033[95m";
 	} else if(strcmp(menuName, "BLACKSMITH MENU") == 0) {
-		menuColor = "\033[95m"; // Mor
+		menuColor = "\033[93m";
 	} else if(strcmp(menuName, "THE INN") == 0) {
-		menuColor = "\033[96m"; // Cyan
+		menuColor = "\033[96m";
 	}
 	
 	printf("%s\033[3m%s\033[0m", menuColor, menuName);
@@ -304,7 +304,7 @@ void playerStats(char menuName[], int menuNameSize, int viewLineSize, char *view
 	printf("\033[33m\033[1mGold:\033[0m %d\n",kheshig.gold);
 	printf("\033[95m\033[3mAttack:\033[0m %d\n",kheshig.attack);
 	printf("\033[33mDefense:\033[0m %d\n",kheshig.defense);
-	printf("\033[33mDay:\033[0m %d",kheshig.currentDay+1);
+	printf("\033[34mDay:\033[0m %d",kheshig.currentDay+1);
 	if(kheshig.currentTimePeriod == 0)
 	{
 		printf(" Morning");
@@ -330,7 +330,9 @@ void cursorControl()
 		playerStats("MAIN MENU", 9, sizeof(viewLine), viewLine);
 		PrintBoard();
 		//printf("\nActive Cell: [%d , %d]", row, column); // For Debug
+		printf("%s",viewLine);
 		printf("\n[A-D] Move  |  [F] Select  |  [Q] Quit\n");
+		printf("%s\n",viewLine);
 		selectedDirection = getch();
 		
         if(selectedDirection == 'A' || selectedDirection == 'a' || selectedDirection == 75)
@@ -392,7 +394,7 @@ void PrintBoard()
 	
 	for(i=0;i<1;i++)
 	{
-		for(m=0;m<columnSize;m++)
+		/*for(m=0;m<columnSize;m++)
 		{
 			printf(" ");
 			for(n=0;n<strlen(boardMain[m])+6;n++)
@@ -400,7 +402,7 @@ void PrintBoard()
 				printf("\033[4m ");
 			}
 		}
-		printf("\033[0m\n");
+		printf("\033[0m\n");*/
 		for(m=0;m<columnSize;m++)
 		{
 			printf("|");
@@ -428,7 +430,7 @@ void PrintBoard()
 			printf("|");
 			for(n=0;n<strlen(boardMain[m])+6;n++)
 			{
-				printf("\033[4m ");
+				printf(" ");
 			}
 		}
 		printf("\033[0m|\n");
